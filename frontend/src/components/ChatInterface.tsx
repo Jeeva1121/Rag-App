@@ -54,7 +54,7 @@ export function ChatInterface({
                     {!isSidebarOpen && (
                         <button
                             onClick={onToggleSidebar}
-                            className="p-1.5 mr-1 hover:bg-black/5 rounded-lg text-gray-700 transition-colors"
+                            className="p-1.5 mr-2 md:mr-6 hover:bg-black/5 rounded-lg text-gray-700 transition-colors"
                         >
                             <Menu className="w-5 h-5" />
                         </button>
