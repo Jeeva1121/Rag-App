@@ -43,7 +43,7 @@ export function ChatInterface({
     }
 
     return (
-        <div className="flex-1 flex flex-col h-full bg-white/40 backdrop-blur-md relative overflow-hidden">
+        <div className="flex-1 flex flex-col h-full bg-linear-to-br from-white via-blue-100/80 to-blue-200/70 backdrop-blur-xl relative overflow-hidden shadow-2xl rounded-l-4xl border-l border-white/60">
             {/* Header */}
             <header className="px-12 py-8 flex items-center justify-between border-b border-white/20">
                 <div className="flex items-center space-x-4">
@@ -95,8 +95,8 @@ export function ChatInterface({
                                         className="relative z-10"
                                     >
                                         <Image
-                                            src="/man-avatar.png"
-                                            alt="Support Avatar"
+                                            src="/bot-mascot-new.png"
+                                            alt="Lumina Bot"
                                             width={240}
                                             height={240}
                                             className="drop-shadow-2xl hover:scale-105 transition-transform duration-700 pointer-events-none"
