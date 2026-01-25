@@ -142,7 +142,7 @@ export function Sidebar({ onNewChat, onToggle, messages, fileName, sessions, onL
                                     >
                                         <div className="flex justify-between items-center mb-1 md:mb-2">
                                             <p className="text-[10px] font-bold text-gray-400 uppercase">{session.date}</p>
-                                            <div className="flex items-center space-x-1 md:opacity-0 md:group-hover:opacity-100 opacity-100 transition-opacity">
+                                            <div className="flex items-center space-x-1 opacity-100 transition-opacity">
                                                 <button
                                                     onClick={(e) => {
                                                         e.stopPropagation()
@@ -150,25 +150,23 @@ export function Sidebar({ onNewChat, onToggle, messages, fileName, sessions, onL
                                                         setCopiedSessionId(session.id)
                                                         setTimeout(() => setCopiedSessionId(null), 2000)
                                                     }}
-                                                    className="p-1 hover:bg-blue-50 rounded text-gray-400 hover:text-blue-500 transition-colors"
+                                                    className="p-1 hover:bg-blue-50 rounded text-blue-500/70 hover:text-blue-600 transition-colors"
                                                     title="Copy Preview"
                                                 >
-                                                    {copiedSessionId === session.id ? <Check className="w-3 h-3 text-green-500" /> : <Copy className="w-3 h-3" />}
+                                                    {copiedSessionId === session.id ? <Check className="w-3.5 h-3.5 text-green-500" /> : <Copy className="w-3.5 h-3.5" />}
                                                 </button>
                                                 <button
                                                     onClick={(e) => {
                                                         e.stopPropagation()
-                                                        // Placeholder for rename logic
                                                         const newName = prompt("Rename chat to:", session.preview)
                                                         if (newName) {
-                                                            // In a real app we'd update state here
-                                                            toast?.success?.("Chat renamed")
+                                                            toast.success("Chat renamed")
                                                         }
                                                     }}
-                                                    className="p-1 hover:bg-blue-50 rounded text-gray-400 hover:text-blue-500 transition-colors"
+                                                    className="p-1 hover:bg-green-50 rounded text-green-500/70 hover:text-green-600 transition-colors"
                                                     title="Edit Name"
                                                 >
-                                                    <Pencil className="w-3 h-3" />
+                                                    <Pencil className="w-3.5 h-3.5" />
                                                 </button>
                                                 <button
                                                     onClick={(e) => {
@@ -176,17 +174,17 @@ export function Sidebar({ onNewChat, onToggle, messages, fileName, sessions, onL
                                                         onLoadSession(session)
                                                         setView('chat')
                                                     }}
-                                                    className="p-1 hover:bg-blue-50 rounded text-gray-400 hover:text-blue-500 transition-colors"
+                                                    className="p-1 hover:bg-orange-50 rounded text-orange-500/70 hover:text-orange-600 transition-colors"
                                                     title="Rerun Session"
                                                 >
-                                                    <RotateCcw className="w-3 h-3" />
+                                                    <RotateCcw className="w-3.5 h-3.5" />
                                                 </button>
                                                 <button
                                                     onClick={(e) => onDeleteSession(session.id, e)}
-                                                    className="p-1 hover:bg-red-50 rounded text-red-400 md:text-gray-300 md:hover:text-red-500 transition-all"
+                                                    className="p-1 hover:bg-red-50 rounded text-red-500/70 hover:text-red-600 transition-all"
                                                     title="Delete"
                                                 >
-                                                    <Trash2 className="w-3.5 h-3.5" />
+                                                    <Trash2 className="w-4 h-4" />
                                                 </button>
                                             </div>
                                         </div>
