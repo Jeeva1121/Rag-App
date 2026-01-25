@@ -47,14 +47,16 @@ export function ChatInterface({
             {/* Header */}
             <header className="px-12 py-8 flex items-center justify-between border-b border-white/20">
                 <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-white/50 rounded-2xl flex items-center justify-center border border-white/50 shadow-sm transition-transform hover:scale-110">
-                        <Bot className="w-6 h-6 text-indigo-600" />
+                    <div className="w-12 h-12 bg-white/50 rounded-2xl flex items-center justify-center border border-white/50 shadow-sm transition-transform hover:scale-110 overflow-hidden p-2">
+                        <Image src="/lumina-logo.png" alt="Lumina Logo" width={48} height={48} className="object-contain" />
                     </div>
                     <div>
-                        <h1 className="text-2xl font-black text-gray-900 tracking-tighter m-0">Rag</h1>
-                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none mt-1">
-                            {isDocumentLoaded ? fileName : "No Source Connected"}
-                        </p>
+                        <h1 className="text-2xl font-black text-gray-900 tracking-tighter m-0">LUMINA</h1>
+                        {isDocumentLoaded && (
+                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none mt-1">
+                                {fileName}
+                            </p>
+                        )}
                     </div>
                 </div>
 
@@ -83,14 +85,24 @@ export function ChatInterface({
                             >
                                 <div className="relative group">
                                     <div className="absolute -inset-10 bg-indigo-400/20 blur-[60px] opacity-20" />
-                                    <Image
-                                        src="/bot-mascot.png"
-                                        alt="AI Mascot"
-                                        width={320}
-                                        height={320}
-                                        className="relative z-10 drop-shadow-[0_20px_40px_rgba(0,0,0,0.08)] hover:scale-105 transition-transform duration-700 pointer-events-none"
-                                        priority
-                                    />
+                                    <motion.div
+                                        animate={{ y: [0, -15, 0] }}
+                                        transition={{
+                                            duration: 6,
+                                            repeat: Infinity,
+                                            ease: "easeInOut"
+                                        }}
+                                        className="relative z-10"
+                                    >
+                                        <Image
+                                            src="/man-avatar.png"
+                                            alt="Support Avatar"
+                                            width={240}
+                                            height={240}
+                                            className="drop-shadow-2xl hover:scale-105 transition-transform duration-700 pointer-events-none"
+                                            priority
+                                        />
+                                    </motion.div>
                                 </div>
 
                                 <div className="space-y-4">
@@ -116,7 +128,7 @@ export function ChatInterface({
                                     >
                                         <div className={cn(
                                             "w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-lg",
-                                            message.role === "user" ? "active sidebar-icon-wrap" : "bg-white border text-indigo-600"
+                                            message.role === "user" ? "active sidebar-icon-wrap" : "bg-white border text-blue-500"
                                         )}>
                                             {message.role === "user" ? <div className="font-bold text-xs">YOU</div> : <Bot className="w-6 h-6" />}
                                         </div>
@@ -161,7 +173,7 @@ export function ChatInterface({
                         />
 
                         <div className="flex items-center space-x-4 pr-2 pb-1">
-                            <label className="p-3 text-gray-300 hover:text-indigo-600 transition-all cursor-pointer">
+                            <label className="p-3 text-gray-300 hover:text-blue-500 transition-all cursor-pointer">
                                 <Paperclip className="w-6 h-6" />
                                 <input type="file" className="hidden" accept=".pdf" onChange={(e) => {
                                     const file = e.target.files?.[0]

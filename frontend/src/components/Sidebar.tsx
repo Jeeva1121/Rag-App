@@ -28,77 +28,100 @@ export function Sidebar({ onNewChat, onToggle, messages, fileName, sessions, onL
     const [view, setView] = useState<'chat' | 'history' | 'files'>('chat')
 
     return (
-        <div className={cn(
-            "h-full flex flex-col items-center py-10 shrink-0 relative z-50 glass-card rounded-4xl mr-6 transition-all duration-300 ease-out",
-            view === 'chat' ? "w-24" : "w-80"
-        )}>
-            {/* Toggle Button */}
-            <button
-                onClick={onToggle}
-                className="p-2 rounded-xl hover:bg-gray-100 transition-colors shadow-sm bg-white/50 mb-12"
-            >
-                <ChevronLeft className="w-5 h-5 text-gray-800" />
-            </button>
-
-            <div className="flex w-full h-full overflow-hidden">
-                {/* Icons Column */}
-                <nav className="w-24 flex flex-col items-center space-y-6 shrink-0">
-                    <div
-                        className={cn("sidebar-icon-wrap cursor-pointer group", view === 'chat' ? 'active' : 'inactive')}
-                        onClick={() => setView('chat')}
-                        title="Current Chat"
+        <div className="h-full flex flex-row items-center py-6 shrink-0 relative z-50 transition-all duration-300 ease-out" style={{ width: view === 'chat' ? '80px' : '320px' }}>
+            {/* Main Sidebar Pillar */}
+            <div className="h-full w-20 bg-white/80 backdrop-blur-2xl rounded-2xl flex flex-col items-center py-6 shadow-2xl border border-white/50 relative z-20">
+                {/* Top Actions */}
+                <div className="flex flex-col space-y-4 items-center w-full px-2">
+                    <button
+                        onClick={onToggle}
+                        className="p-2 text-gray-400 hover:text-gray-600 transition-colors hover:bg-white/50 rounded-xl"
+                        title="Toggle Sidebar"
                     >
-                        <MessageSquare className="w-6 h-6" />
-                    </div>
-                    <div
-                        className="sidebar-icon-wrap inactive cursor-pointer group"
+                        <ChevronLeft className="w-5 h-5" />
+                    </button>
+
+                    <div className="w-10 h-px bg-gray-200 rounded-full" />
+
+                    <button
+                        className="w-12 h-12 rounded-2xl bg-linear-to-br from-blue-500 to-cyan-500 text-white flex items-center justify-center shadow-lg shadow-blue-500/30 hover:scale-105 transition-transform"
                         onClick={() => {
                             onNewChat()
                             setView('chat')
                         }}
                         title="New Chat"
                     >
-                        <Plus className="w-6 h-6 group-hover:rotate-90 transition-transform" />
-                    </div>
-                    <div
-                        className={cn("sidebar-icon-wrap cursor-pointer group", view === 'history' ? 'active' : 'inactive')}
+                        <Plus className="w-6 h-6" />
+                    </button>
+                </div>
+
+                {/* Navigation */}
+                <nav className="flex-1 flex flex-col items-center space-y-6 mt-6">
+                    <button
+                        onClick={() => setView('chat')}
+                        className={cn(
+                            "w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300",
+                            view === 'chat'
+                                ? "bg-blue-50 text-blue-600 shadow-inner"
+                                : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"
+                        )}
+                        title="Current Chat"
+                    >
+                        <MessageSquare className="w-6 h-6" />
+                    </button>
+
+                    <button
                         onClick={() => setView(view === 'history' ? 'chat' : 'history')}
+                        className={cn(
+                            "w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300",
+                            view === 'history'
+                                ? "bg-blue-50 text-blue-600 shadow-inner"
+                                : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"
+                        )}
                         title="Chat History"
                     >
                         <Clock className="w-6 h-6" />
-                    </div>
-                    <div
-                        className={cn("sidebar-icon-wrap cursor-pointer group", view === 'files' ? 'active' : 'inactive')}
+                    </button>
+
+                    <button
                         onClick={() => setView(view === 'files' ? 'chat' : 'files')}
+                        className={cn(
+                            "w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300",
+                            view === 'files'
+                                ? "bg-blue-50 text-blue-600 shadow-inner"
+                                : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"
+                        )}
                         title="Documents"
                     >
                         <FileText className="w-6 h-6" />
-                    </div>
+                    </button>
                 </nav>
 
-                {/* Expanded Content */}
-                <div className={cn(
-                    "flex-1 flex flex-col border-l border-gray-100/50 transition-all duration-300",
-                    view === 'chat' ? "opacity-0 invisible w-0" : "opacity-100 visible w-full px-6"
-                )}>
-                    <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-6">
+
+            </div>
+
+            {/* Expandable Panel */}
+            <div className={cn(
+                "absolute left-6 top-6 bottom-6 bg-white/90 backdrop-blur-xl rounded-r-3xl rounded-l-none border-y border-r border-white/50 shadow-xl transition-all duration-300 ease-out flex flex-col overflow-hidden z-10",
+                view === 'chat' ? "w-0 opacity-0 translate-x-0" : "w-64 opacity-100 translate-x-14 pl-4"
+            )}>
+                <div className="p-6 h-full flex flex-col w-64">
+                    <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-6 mt-2">
                         {view === 'history' ? 'Past Conversations' : 'Document Library'}
                     </h3>
 
-                    <div className="flex-1 space-y-3 overflow-y-auto custom-scrollbar">
+                    <div className="flex-1 space-y-3 overflow-y-auto custom-scrollbar pr-2">
                         {view === 'history' ? (
-                            <div className="space-y-2">
-                                {/* Current Session (if active) */}
+                            <div className="space-y-3">
                                 {messages.length > 0 && (
-                                    <div className="p-4 rounded-2xl bg-indigo-50 border border-indigo-100 cursor-pointer shadow-sm overflow-hidden">
-                                        <p className="text-xs font-bold text-indigo-600 mb-1">Current Session</p>
-                                        <p className="text-sm font-semibold text-gray-700 line-clamp-2 leading-relaxed wrap-break-word">
+                                    <div className="p-4 rounded-2xl bg-blue-50 border border-blue-100 cursor-pointer shadow-sm group">
+                                        <p className="text-xs font-bold text-blue-600 mb-2">Current Session</p>
+                                        <p className="text-sm font-medium text-gray-600 line-clamp-2 leading-relaxed break-words">
                                             {messages[0].content}
                                         </p>
                                     </div>
                                 )}
 
-                                {/* Archived Sessions */}
                                 {sessions.map((session) => (
                                     <div
                                         key={session.id}
@@ -106,18 +129,18 @@ export function Sidebar({ onNewChat, onToggle, messages, fileName, sessions, onL
                                             onLoadSession(session)
                                             setView('chat')
                                         }}
-                                        className="p-4 rounded-2xl bg-white/50 border border-white/50 cursor-pointer hover:bg-white transition-all group"
+                                        className="p-4 rounded-2xl bg-white border border-gray-100 cursor-pointer hover:border-blue-200 hover:shadow-md transition-all group relative"
                                     >
-                                        <div className="flex justify-between items-center mb-1">
-                                            <p className="text-xs font-bold text-gray-400">{session.date}</p>
+                                        <div className="flex justify-between items-center mb-2">
+                                            <p className="text-[10px] font-bold text-gray-400 uppercase">{session.date}</p>
                                             <button
                                                 onClick={(e) => onDeleteSession(session.id, e)}
-                                                className="p-1 hover:bg-red-50 rounded-lg text-gray-400 hover:text-red-500 transition-colors"
+                                                className="opacity-0 group-hover:opacity-100 p-1 hover:bg-red-50 rounded text-gray-300 hover:text-red-500 transition-all"
                                             >
-                                                <Trash2 className="w-4 h-4" />
+                                                <Trash2 className="w-3 h-3" />
                                             </button>
                                         </div>
-                                        <p className="text-sm font-semibold text-gray-700 line-clamp-2 leading-relaxed">
+                                        <p className="text-sm font-medium text-gray-600 line-clamp-2 leading-relaxed">
                                             {session.preview}
                                         </p>
                                     </div>
@@ -125,30 +148,30 @@ export function Sidebar({ onNewChat, onToggle, messages, fileName, sessions, onL
 
                                 {sessions.length === 0 && messages.length === 0 && (
                                     <div className="text-center py-10">
-                                        <p className="text-xs font-medium text-gray-300">No history available</p>
+                                        <p className="text-xs font-medium text-gray-300">No recent history</p>
                                     </div>
                                 )}
                             </div>
                         ) : (
                             <div className="space-y-4">
                                 {fileName ? (
-                                    <div className="p-4 rounded-2xl bg-indigo-50/50 border border-indigo-100/50 flex items-center justify-between group">
-                                        <div className="flex items-center space-x-3 min-w-0">
-                                            <div className="p-2 bg-indigo-600 rounded-lg text-white">
-                                                <FileText className="w-4 h-4" />
-                                            </div>
-                                            <div className="min-w-0">
-                                                <p className="text-sm font-bold text-gray-800 line-clamp-2 break-all leading-tight">{fileName}</p>
-                                                <p className="text-[10px] font-medium text-indigo-500 uppercase">Active</p>
-                                            </div>
+                                    <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-100 flex items-center space-x-3">
+                                        <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-sm text-blue-500 shrink-0">
+                                            <FileText className="w-5 h-5" />
+                                        </div>
+                                        <div className="min-w-0 flex-1">
+                                            <p className="text-sm font-bold text-gray-700 line-clamp-2 leading-tight break-all">{fileName}</p>
+                                            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-green-100 text-green-600 mt-1">
+                                                ACTIVE
+                                            </span>
                                         </div>
                                     </div>
                                 ) : (
-                                    <div className="text-center py-10 space-y-4">
-                                        <div className="w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center mx-auto">
-                                            <Upload className="w-6 h-6 text-gray-300" />
+                                    <div className="flex flex-col items-center justify-center py-12 text-center space-y-4 px-4 border-2 border-dashed border-gray-200 rounded-2xl">
+                                        <div className="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center text-gray-300">
+                                            <Upload className="w-6 h-6" />
                                         </div>
-                                        <p className="text-xs font-medium text-gray-400">No documents uploaded yet</p>
+                                        <p className="text-xs font-medium text-gray-400">No document active</p>
                                     </div>
                                 )}
                             </div>

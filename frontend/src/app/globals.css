@@ -42,7 +42,7 @@
     }
 
     .sidebar-icon-wrap.active {
-        background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
         color: white;
         box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
     }
@@ -52,12 +52,12 @@
     }
 
     .primary-pill {
-        background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
         @apply py-4 px-8 rounded-full text-white font-bold text-sm shadow-xl shadow-indigo-500/20 hover:scale-105 active:scale-95 transition-all;
     }
 
     .chat-bubble-user {
-        background: linear-gradient(135deg, #6366f1 0%, #7c3aed 50%, #8b5cf6 100%);
+        background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 50%, #38bdf8 100%);
         @apply text-white rounded-4xl rounded-tr-none px-6 py-4 shadow-lg shadow-indigo-500/10;
     }
 
