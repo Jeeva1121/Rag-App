@@ -6,12 +6,23 @@
 
 Lumina is a professional RAG (Retrieval-Augmented Generation) application built for intelligent document analysis and high-performance chatting.
 
+## 🛠️ Tech Stack
+
+Lumina is built using modern, high-performance technologies across the entire stack:
+
+- **Frontend**: [Next.js](https://nextjs.org/) (React), [Tailwind CSS](https://tailwindcss.com/), [Framer Motion](https://www.framer.com/motion/), [Three.js](https://threejs.org/) (for 3D mascot).
+- **Backend**: [FastAPI](https://fastapi.tiangolo.com/) (Python).
+- **AI Orchestration**: [LangChain](https://www.langchain.com/).
+- **Vector Database**: [FAISS](https://github.com/facebookresearch/faiss) (Facebook AI Similarity Search).
+- **LLMs**: [Llama-3](https://meta.ai/) (via [Groq](https://groq.com/)) and [Gemini](https://deepmind.google/technologies/gemini/) (for embeddings/analysis).
+- **PDF Processing**: [PyMuPDF](https://pymupdf.readthedocs.io/).
+
 ## 🏗️ System Architecture & Workflow
 
 The application follows a structured RAG pipeline to provide accurate, context-aware answers:
 
 <p align="center">
-  <img src="./connectivity.png" width="600" alt="Connectivity Diagram">
+  <img src="./workflow.png" width="600" alt="Workflow Diagram">
 </p>
 
 1.  **Document Intake**: PDFs are uploaded via the frontend and processed by the FastAPI backend.
