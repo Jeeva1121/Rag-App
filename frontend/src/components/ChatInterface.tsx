@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { Send, Upload, Paperclip, Copy, Check, Bot, Menu } from "lucide-react"
+import { Send, Upload, Paperclip, Copy, Check, Bot, Menu, Pencil, RotateCcw } from "lucide-react"
 import ReactMarkdown from "react-markdown"
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
@@ -134,7 +134,7 @@ export function ChatInterface({
                                         initial={{ opacity: 0, y: 30 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         className={cn(
-                                            "flex items-start space-x-2 md:space-x-6",
+                                            "flex items-start space-x-2 md:space-x-6 group",
                                             message.role === "user" ? "flex-row-reverse space-x-reverse" : "flex-row"
                                         )}
                                     >
@@ -150,11 +150,59 @@ export function ChatInterface({
                                             message.role === "user" ? "items-end" : "items-start"
                                         )}>
                                             <div className={cn(
+                                                "relative group/bubble",
                                                 message.role === "user" ? "chat-bubble-user" : "chat-bubble-ai"
                                             )}>
                                                 <div className="prose prose-slate max-w-none prose-xs md:prose-sm font-medium leading-relaxed">
                                                     <ReactMarkdown>{message.content}</ReactMarkdown>
                                                 </div>
+                                            </div>
+
+                                            {/* Action Buttons */}
+                                            <div className={cn(
+                                                "flex items-center space-x-2 mt-1 opacity-0 group-hover:opacity-100 transition-opacity",
+                                                message.role === "user" ? "justify-end" : "justify-start"
+                                            )}>
+                                                <button
+                                                    onClick={() => {
+                                                        navigator.clipboard.writeText(message.content)
+                                                        setCopiedId(message.id)
+                                                        setTimeout(() => setCopiedId(null), 2000)
+                                                    }}
+                                                    className="p-1 hover:bg-black/5 rounded text-gray-400 hover:text-blue-500 transition-colors"
+                                                    title="Copy"
+                                                >
+                                                    {copiedId === message.id ? <Check className="w-3 h-3 text-green-500" /> : <Copy className="w-3 h-3" />}
+                                                </button>
+
+                                                {message.role === "user" && !isLoading && (
+                                                    <button
+                                                        onClick={() => {
+                                                            setInput(message.content)
+                                                            // Focus input logic could be added here
+                                                        }}
+                                                        className="p-1 hover:bg-black/5 rounded text-gray-400 hover:text-blue-500 transition-colors"
+                                                        title="Edit"
+                                                    >
+                                                        <Pencil className="w-3 h-3" />
+                                                    </button>
+                                                )}
+
+                                                {message.role === "assistant" && !isLoading && (
+                                                    <button
+                                                        onClick={() => {
+                                                            // Find previous user message
+                                                            const idx = messages.indexOf(message)
+                                                            if (idx > 0) {
+                                                                onSend(messages[idx - 1].content)
+                                                            }
+                                                        }}
+                                                        className="p-1 hover:bg-black/5 rounded text-gray-400 hover:text-blue-500 transition-colors"
+                                                        title="Rerun"
+                                                    >
+                                                        <RotateCcw className="w-3 h-3" />
+                                                    </button>
+                                                )}
                                             </div>
                                         </div>
                                     </motion.div>
