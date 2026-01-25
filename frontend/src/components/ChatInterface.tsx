@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { Send, Upload, Paperclip, Copy, Check, Bot, Menu, Pencil, RotateCcw } from "lucide-react"
+import { Send, Upload, Paperclip, Copy, Check, Bot, Menu, Pencil, RotateCcw, X } from "lucide-react"
 import ReactMarkdown from "react-markdown"
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
@@ -34,6 +34,8 @@ export function ChatInterface({
 }: ChatInterfaceProps) {
     const [input, setInput] = useState("")
     const [copiedId, setCopiedId] = useState<string | null>(null)
+    const [editingId, setEditingId] = useState<string | null>(null)
+    const [editInput, setEditInput] = useState("")
     const chatEndRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
@@ -111,7 +113,7 @@ export function ChatInterface({
                                             alt="Lumina Bot"
                                             width={320}
                                             height={320}
-                                            className="w-36 h-36 md:w-80 md:h-80 drop-shadow-2xl hover:scale-105 transition-transform duration-700 pointer-events-none object-contain"
+                                            className="w-52 h-52 md:w-80 md:h-80 drop-shadow-2xl hover:scale-105 transition-transform duration-700 pointer-events-none object-contain"
                                             priority
                                         />
                                     </motion.div>
@@ -153,9 +155,38 @@ export function ChatInterface({
                                                 "relative group/bubble",
                                                 message.role === "user" ? "chat-bubble-user" : "chat-bubble-ai"
                                             )}>
-                                                <div className="prose prose-slate max-w-none prose-xs md:prose-sm font-medium leading-relaxed">
-                                                    <ReactMarkdown>{message.content}</ReactMarkdown>
-                                                </div>
+                                                {editingId === message.id ? (
+                                                    <div className="flex flex-col space-y-2 min-w-[200px]">
+                                                        <textarea
+                                                            autoFocus
+                                                            className="bg-white/20 text-white placeholder:text-white/50 border-none rounded-lg p-2 text-sm focus:ring-1 focus:ring-white/50 outline-none resize-none"
+                                                            value={editInput}
+                                                            onChange={(e) => setEditInput(e.target.value)}
+                                                            rows={3}
+                                                        />
+                                                        <div className="flex justify-end space-x-2">
+                                                            <button
+                                                                onClick={() => setEditingId(null)}
+                                                                className="p-1 hover:bg-white/10 rounded"
+                                                            >
+                                                                <X className="w-4 h-4 text-white" />
+                                                            </button>
+                                                            <button
+                                                                onClick={() => {
+                                                                    onSend(editInput)
+                                                                    setEditingId(null)
+                                                                }}
+                                                                className="p-1 hover:bg-white/10 rounded"
+                                                            >
+                                                                <Check className="w-4 h-4 text-white" />
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <div className="prose prose-slate max-w-none prose-xs md:prose-sm font-medium leading-relaxed">
+                                                        <ReactMarkdown>{message.content}</ReactMarkdown>
+                                                    </div>
+                                                )}
                                             </div>
 
                                             {/* Action Buttons */}
@@ -178,29 +209,28 @@ export function ChatInterface({
                                                 {message.role === "user" && !isLoading && (
                                                     <button
                                                         onClick={() => {
-                                                            setInput(message.content)
-                                                            // Focus input logic could be added here
+                                                            setEditingId(message.id)
+                                                            setEditInput(message.content)
                                                         }}
-                                                        className="p-1 hover:bg-black/5 rounded text-gray-400 hover:text-blue-500 transition-colors"
+                                                        className="p-1.5 hover:bg-black/5 rounded-lg text-gray-400 hover:text-blue-500 transition-colors"
                                                         title="Edit"
                                                     >
-                                                        <Pencil className="w-3 h-3" />
+                                                        <Pencil className="w-4 h-4" />
                                                     </button>
                                                 )}
 
                                                 {message.role === "assistant" && !isLoading && (
                                                     <button
                                                         onClick={() => {
-                                                            // Find previous user message
                                                             const idx = messages.indexOf(message)
                                                             if (idx > 0) {
                                                                 onSend(messages[idx - 1].content)
                                                             }
                                                         }}
-                                                        className="p-1 hover:bg-black/5 rounded text-gray-400 hover:text-blue-500 transition-colors"
+                                                        className="p-1.5 hover:bg-black/5 rounded-lg text-gray-400 hover:text-blue-500 transition-colors"
                                                         title="Rerun"
                                                     >
-                                                        <RotateCcw className="w-3 h-3" />
+                                                        <RotateCcw className="w-4 h-4" />
                                                     </button>
                                                 )}
                                             </div>
