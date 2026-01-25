@@ -18,11 +18,7 @@
 
 @layer base {
     body {
-        background: radial-gradient(at 0% 0%, #eef2ff 0%, transparent 40%),
-            radial-gradient(at 100% 0%, #f5f3ff 0%, transparent 40%),
-            radial-gradient(at 100% 100%, #faf5ff 0%, transparent 40%),
-            radial-gradient(at 0% 100%, #f0f9ff 0%, transparent 40%),
-            #ffffff;
+        background: url('/bg-waves.png') center/cover no-repeat;
         background-attachment: fixed;
         color: #0f172a;
         font-family: 'Poppins', sans-serif;
