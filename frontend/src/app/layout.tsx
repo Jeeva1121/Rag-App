@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "RAG Nexus - Intelligent Document Assistant",
+  title: "Rag",
   description: "Advanced Retrieval-Augmented Generation chatbot for document analysis.",
 };
 

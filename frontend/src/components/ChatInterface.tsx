@@ -51,7 +51,7 @@ export function ChatInterface({
                         <Bot className="w-6 h-6 text-indigo-600" />
                     </div>
                     <div>
-                        <h1 className="text-2xl font-black text-gray-900 tracking-tighter m-0">LUMINA</h1>
+                        <h1 className="text-2xl font-black text-gray-900 tracking-tighter m-0">Rag</h1>
                         <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none mt-1">
                             {isDocumentLoaded ? fileName : "No Source Connected"}
                         </p>
