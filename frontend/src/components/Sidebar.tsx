@@ -8,9 +8,14 @@ import {
     Clock,
     ChevronLeft,
     Trash2,
-    Upload
+    Upload,
+    RotateCcw,
+    Pencil,
+    Copy,
+    Check
 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { toast } from "sonner"
 
 import { ChatMessage, ChatSession } from "@/types"
 
@@ -26,6 +31,7 @@ interface SidebarProps {
 
 export function Sidebar({ onNewChat, onToggle, messages, fileName, sessions, onLoadSession, onDeleteSession }: SidebarProps) {
     const [view, setView] = useState<'chat' | 'history' | 'files'>('chat')
+    const [copiedSessionId, setCopiedSessionId] = useState<string | null>(null)
 
     return (
         <div className={cn(
@@ -136,12 +142,53 @@ export function Sidebar({ onNewChat, onToggle, messages, fileName, sessions, onL
                                     >
                                         <div className="flex justify-between items-center mb-1 md:mb-2">
                                             <p className="text-[10px] font-bold text-gray-400 uppercase">{session.date}</p>
-                                            <button
-                                                onClick={(e) => onDeleteSession(session.id, e)}
-                                                className="md:opacity-0 md:group-hover:opacity-100 opacity-100 p-1 hover:bg-red-50 rounded text-red-400 md:text-gray-300 md:hover:text-red-500 transition-all"
-                                            >
-                                                <Trash2 className="w-3.5 h-3.5" />
-                                            </button>
+                                            <div className="flex items-center space-x-1 md:opacity-0 md:group-hover:opacity-100 opacity-100 transition-opacity">
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation()
+                                                        navigator.clipboard.writeText(session.preview)
+                                                        setCopiedSessionId(session.id)
+                                                        setTimeout(() => setCopiedSessionId(null), 2000)
+                                                    }}
+                                                    className="p-1 hover:bg-blue-50 rounded text-gray-400 hover:text-blue-500 transition-colors"
+                                                    title="Copy Preview"
+                                                >
+                                                    {copiedSessionId === session.id ? <Check className="w-3 h-3 text-green-500" /> : <Copy className="w-3 h-3" />}
+                                                </button>
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation()
+                                                        // Placeholder for rename logic
+                                                        const newName = prompt("Rename chat to:", session.preview)
+                                                        if (newName) {
+                                                            // In a real app we'd update state here
+                                                            toast?.success?.("Chat renamed")
+                                                        }
+                                                    }}
+                                                    className="p-1 hover:bg-blue-50 rounded text-gray-400 hover:text-blue-500 transition-colors"
+                                                    title="Edit Name"
+                                                >
+                                                    <Pencil className="w-3 h-3" />
+                                                </button>
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation()
+                                                        onLoadSession(session)
+                                                        setView('chat')
+                                                    }}
+                                                    className="p-1 hover:bg-blue-50 rounded text-gray-400 hover:text-blue-500 transition-colors"
+                                                    title="Rerun Session"
+                                                >
+                                                    <RotateCcw className="w-3 h-3" />
+                                                </button>
+                                                <button
+                                                    onClick={(e) => onDeleteSession(session.id, e)}
+                                                    className="p-1 hover:bg-red-50 rounded text-red-400 md:text-gray-300 md:hover:text-red-500 transition-all"
+                                                    title="Delete"
+                                                >
+                                                    <Trash2 className="w-3.5 h-3.5" />
+                                                </button>
+                                            </div>
                                         </div>
                                         <p className="text-xs md:text-sm font-medium text-gray-600 line-clamp-2 leading-relaxed">
                                             {session.preview}

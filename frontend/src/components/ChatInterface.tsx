@@ -54,7 +54,7 @@ export function ChatInterface({
                     {!isSidebarOpen && (
                         <button
                             onClick={onToggleSidebar}
-                            className="p-1.5 mr-1 hover:bg-black/5 rounded-lg md:hidden text-gray-700"
+                            className="p-1.5 mr-1 hover:bg-black/5 rounded-lg text-gray-700 transition-colors"
                         >
                             <Menu className="w-5 h-5" />
                         </button>
@@ -111,7 +111,7 @@ export function ChatInterface({
                                             alt="Lumina Bot"
                                             width={320}
                                             height={320}
-                                            className="w-28 h-28 md:w-80 md:h-80 drop-shadow-2xl hover:scale-105 transition-transform duration-700 pointer-events-none object-contain"
+                                            className="w-36 h-36 md:w-80 md:h-80 drop-shadow-2xl hover:scale-105 transition-transform duration-700 pointer-events-none object-contain"
                                             priority
                                         />
                                     </motion.div>
@@ -160,7 +160,7 @@ export function ChatInterface({
 
                                             {/* Action Buttons */}
                                             <div className={cn(
-                                                "flex items-center space-x-2 mt-1 opacity-0 group-hover:opacity-100 transition-opacity",
+                                                "flex items-center space-x-2 mt-1 md:opacity-0 md:group-hover:opacity-100 opacity-100 transition-opacity",
                                                 message.role === "user" ? "justify-end" : "justify-start"
                                             )}>
                                                 <button
