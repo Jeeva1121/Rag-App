@@ -127,7 +127,7 @@ export function ChatInterface({
                                 </div>
                             </motion.div>
                         ) : (
-                            <div className="space-y-12 py-4">
+                            <div className="space-y-6 md:space-y-12 py-4 md:py-8">
                                 {messages.map((message) => (
                                     <motion.div
                                         key={message.id}
@@ -146,7 +146,7 @@ export function ChatInterface({
                                         </div>
 
                                         <div className={cn(
-                                            "flex flex-col space-y-2 max-w-[85%] md:max-w-[80%]",
+                                            "flex flex-col space-y-2 max-w-[80%] md:max-w-[80%]",
                                             message.role === "user" ? "items-end" : "items-start"
                                         )}>
                                             <div className={cn(

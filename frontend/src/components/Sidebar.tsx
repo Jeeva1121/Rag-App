@@ -106,7 +106,7 @@ export function Sidebar({ onNewChat, onToggle, messages, fileName, sessions, onL
             {/* Expandable Panel */}
             <div className={cn(
                 "absolute left-2 md:left-6 top-2 md:top-6 bottom-2 md:bottom-6 bg-white/90 backdrop-blur-xl rounded-r-3xl rounded-l-2xl border-y border-r border-white/50 shadow-xl transition-all duration-300 ease-out flex flex-col overflow-hidden z-10",
-                view === 'chat' ? "w-0 opacity-0 translate-x-0" : "w-60 md:w-64 opacity-100 translate-x-12 md:translate-x-14 pl-4"
+                view === 'chat' ? "w-0 opacity-0 translate-x-0" : "w-60 md:w-64 opacity-100 translate-x-[52px] md:translate-x-14 md:pl-4 pl-2"
             )}>
                 <div className="p-6 h-full flex flex-col w-64">
                     <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-6 mt-2">
@@ -117,9 +117,9 @@ export function Sidebar({ onNewChat, onToggle, messages, fileName, sessions, onL
                         {view === 'history' ? (
                             <div className="space-y-3">
                                 {messages.length > 0 && (
-                                    <div className="p-4 rounded-2xl bg-blue-50 border border-blue-100 cursor-pointer shadow-sm group">
-                                        <p className="text-xs font-bold text-blue-600 mb-2">Current Session</p>
-                                        <p className="text-sm font-medium text-gray-600 line-clamp-2 leading-relaxed break-words">
+                                    <div className="p-3 md:p-4 rounded-2xl bg-blue-50 border border-blue-100 cursor-pointer shadow-sm">
+                                        <p className="text-[10px] md:text-xs font-bold text-blue-600 mb-1 md:mb-2">Current Session</p>
+                                        <p className="text-xs md:text-sm font-medium text-gray-600 line-clamp-2 leading-relaxed break-words">
                                             {messages[0].content}
                                         </p>
                                     </div>
@@ -134,16 +134,16 @@ export function Sidebar({ onNewChat, onToggle, messages, fileName, sessions, onL
                                         }}
                                         className="p-4 rounded-2xl bg-white border border-gray-100 cursor-pointer hover:border-blue-200 hover:shadow-md transition-all group relative"
                                     >
-                                        <div className="flex justify-between items-center mb-2">
+                                        <div className="flex justify-between items-center mb-1 md:mb-2">
                                             <p className="text-[10px] font-bold text-gray-400 uppercase">{session.date}</p>
                                             <button
                                                 onClick={(e) => onDeleteSession(session.id, e)}
-                                                className="opacity-0 group-hover:opacity-100 p-1 hover:bg-red-50 rounded text-gray-300 hover:text-red-500 transition-all"
+                                                className="md:opacity-0 md:group-hover:opacity-100 opacity-100 p-1 hover:bg-red-50 rounded text-red-400 md:text-gray-300 md:hover:text-red-500 transition-all"
                                             >
-                                                <Trash2 className="w-3 h-3" />
+                                                <Trash2 className="w-3.5 h-3.5" />
                                             </button>
                                         </div>
-                                        <p className="text-sm font-medium text-gray-600 line-clamp-2 leading-relaxed">
+                                        <p className="text-xs md:text-sm font-medium text-gray-600 line-clamp-2 leading-relaxed">
                                             {session.preview}
                                         </p>
                                     </div>
