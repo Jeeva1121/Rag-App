@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Rag",
-  description: "Advanced Retrieval-Augmented Generation chatbot for document analysis.",
+  title: "Lumina RAG",
+  description: "Your intelligent AI assistant for document analysis and insights.",
 };
 
 export default function RootLayout({
