@@ -180,17 +180,19 @@ export default function Home() {
             </AnimatePresence>
 
             <div className="flex-1 flex justify-center items-center h-full relative">
-                <ChatInterface
-                    isDocumentLoaded={isDocumentLoaded}
-                    fileName={fileName}
-                    messages={messages}
-                    onSend={handleSend}
-                    onNewChat={handleNewChat}
-                    onFileUpload={handleFileUpload}
-                    isLoading={isLoading}
-                    onToggleSidebar={() => setIsSidebarOpen(true)}
-                    isSidebarOpen={isSidebarOpen}
-                />
+                <div className="w-full h-full max-w-7xl">
+                    <ChatInterface
+                        isDocumentLoaded={isDocumentLoaded}
+                        fileName={fileName}
+                        messages={messages}
+                        onSend={handleSend}
+                        onNewChat={handleNewChat}
+                        onFileUpload={handleFileUpload}
+                        isLoading={isLoading}
+                        onToggleSidebar={() => setIsSidebarOpen(true)}
+                        isSidebarOpen={isSidebarOpen}
+                    />
+                </div>
             </div>
         </main>
     )

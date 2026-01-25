@@ -47,7 +47,7 @@ export function ChatInterface({
     }
 
     return (
-        <div className="flex-1 flex flex-col h-full bg-linear-to-br from-white via-blue-100/80 to-blue-200/70 backdrop-blur-xl relative overflow-hidden shadow-2xl rounded-3xl md:rounded-none md:rounded-l-4xl border-l border-white/60">
+        <div className="flex-1 flex flex-col h-full bg-linear-to-br from-white via-blue-100/80 to-blue-200/70 backdrop-blur-xl relative overflow-hidden shadow-2xl rounded-3xl md:rounded-4xl border border-white/60">
             {/* Header */}
             <header className="px-4 py-3 md:px-12 md:py-8 flex items-center justify-between border-b border-white/20">
                 <div className="flex items-center space-x-2 md:space-x-4">
@@ -160,7 +160,7 @@ export function ChatInterface({
 
                                             {/* Action Buttons */}
                                             <div className={cn(
-                                                "flex items-center space-x-2 mt-1 md:opacity-0 md:group-hover:opacity-100 opacity-100 transition-opacity",
+                                                "flex items-center space-x-2 mt-1 opacity-100 transition-opacity",
                                                 message.role === "user" ? "justify-end" : "justify-start"
                                             )}>
                                                 <button
