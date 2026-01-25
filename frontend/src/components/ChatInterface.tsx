@@ -140,13 +140,13 @@ export function ChatInterface({
                                         initial={{ opacity: 0, y: 30 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         className={cn(
-                                            "flex items-start space-x-2 md:space-x-12 group",
-                                            message.role === "user" ? "flex-row-reverse space-x-reverse" : "flex-row"
+                                            "flex items-start group",
+                                            message.role === "user" ? "flex-row-reverse" : "flex-row"
                                         )}
                                     >
                                         <div className={cn(
-                                            "w-10 h-10 md:w-14 md:h-14 flex items-center justify-center shrink-0 drop-shadow-md transition-transform hover:scale-110",
-                                            message.role === "user" ? "md:mr-4" : "md:ml-4"
+                                            "w-9 h-9 md:w-11 md:h-11 flex items-center justify-center shrink-0 drop-shadow-sm transition-transform hover:scale-110",
+                                            message.role === "user" ? "ml-2 md:ml-8" : "mr-2 md:mr-8"
                                         )}>
                                             <Image
                                                 src={message.role === "user" ? "/user-avatar.png" : "/ai-avatar.png"}
