@@ -140,15 +140,21 @@ export function ChatInterface({
                                         initial={{ opacity: 0, y: 30 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         className={cn(
-                                            "flex items-start space-x-2 md:space-x-6 group",
+                                            "flex items-start space-x-2 md:space-x-12 group",
                                             message.role === "user" ? "flex-row-reverse space-x-reverse" : "flex-row"
                                         )}
                                     >
                                         <div className={cn(
-                                            "w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl flex items-center justify-center shrink-0 shadow-lg",
-                                            message.role === "user" ? "active sidebar-icon-wrap" : "bg-white border text-blue-500"
+                                            "w-10 h-10 md:w-14 md:h-14 flex items-center justify-center shrink-0 drop-shadow-md transition-transform hover:scale-110",
+                                            message.role === "user" ? "md:mr-4" : "md:ml-4"
                                         )}>
-                                            {message.role === "user" ? <div className="font-bold text-[10px] md:text-xs">YOU</div> : <Bot className="w-5 h-5 md:w-6 md:h-6" />}
+                                            <Image
+                                                src={message.role === "user" ? "/user-avatar.png" : "/ai-avatar.png"}
+                                                alt={message.role === "user" ? "User" : "AI"}
+                                                width={56}
+                                                height={56}
+                                                className="w-full h-full object-contain"
+                                            />
                                         </div>
 
                                         <div className={cn(
@@ -205,7 +211,7 @@ export function ChatInterface({
                                                         setCopiedId(message.id)
                                                         setTimeout(() => setCopiedId(null), 2000)
                                                     }}
-                                                    className="p-1 hover:bg-black/5 rounded text-gray-400 hover:text-blue-500 transition-colors"
+                                                    className="p-1 hover:bg-black/5 rounded text-gray-600 hover:text-blue-500 transition-colors"
                                                     title="Copy"
                                                 >
                                                     {copiedId === message.id ? <Check className="w-3 h-3 text-green-500" /> : <Copy className="w-3 h-3" />}
@@ -217,7 +223,7 @@ export function ChatInterface({
                                                             setEditingId(message.id)
                                                             setEditInput(message.content)
                                                         }}
-                                                        className="p-1.5 hover:bg-black/5 rounded-lg text-gray-400 hover:text-blue-500 transition-colors"
+                                                        className="p-1.5 hover:bg-black/5 rounded-lg text-gray-600 hover:text-blue-500 transition-colors"
                                                         title="Edit"
                                                     >
                                                         <Pencil className="w-4 h-4" />
@@ -230,7 +236,7 @@ export function ChatInterface({
                                                             const idx = messages.indexOf(message)
                                                             onRegenerate(idx)
                                                         }}
-                                                        className="p-1.5 hover:bg-black/5 rounded-lg text-gray-400 hover:text-blue-500 transition-colors"
+                                                        className="p-1.5 hover:bg-black/5 rounded-lg text-gray-600 hover:text-blue-500 transition-colors"
                                                         title="Rerun"
                                                     >
                                                         <RotateCcw className="w-4 h-4" />
