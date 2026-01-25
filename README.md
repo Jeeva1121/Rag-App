@@ -2,20 +2,25 @@
 
 Lumina is a professional RAG (Retrieval-Augmented Generation) application built for intelligent document analysis and high-performance chatting.
 
+![Lumina Visualization](./screenshot.png)
+
 ## 🚀 Quick Start
 
 ### 1. Backend Setup (Python)
 Navigate to the `backend` folder and install dependencies:
 ```bash
 cd backend
-pip install -r requirements.txt
+pip install fastapi uvicorn python-multipart langchain langchain-community langchain-google-genai langchain-text-splitters pymupdf faiss-cpu python-dotenv
 ```
-**Required Packages:**
-- `fastapi`, `uvicorn`: Web framework and server
-- `langchain`, `langchain-community`, `langchain-google-genai`: AI orchestration
-- `faiss-cpu`: Vector database for document search
-- `pymupdf`: PDF processing
-- `python-dotenv`: Environment variable management
+
+**Required Packages Detail:**
+- `fastapi`: High-performance web framework.
+- `uvicorn`: ASGI server for running FastAPI.
+- `langchain`: AI orchestration framework.
+- `langchain-google-genai`: Integration for Gemini models.
+- `faiss-cpu`: Efficient similarity search for vector embeddings.
+- `pymupdf`: Optimized engine for reading and parsing PDFs.
+- `python-dotenv`: Environment configuration.
 
 Run the backend:
 ```bash
@@ -26,15 +31,16 @@ python main.py
 Navigate to the `frontend` folder and install dependencies:
 ```bash
 cd frontend
-npm install
+npm install next react react-dom framer-motion lucide-react sonner tailwind-merge clsx react-markdown three @react-three/fiber @react-three/drei
 ```
-**Key Dependencies:**
-- `next`, `react`, `react-dom`: Framework core
-- `framer-motion`: Premium animations
-- `lucide-react`: Modern icons
-- `sonner`: Toast notifications
-- `tailwind-merge`, `clsx`: Styling utilities
-- `react-markdown`: Markdown rendering for AI responses
+
+**Required Packages Detail:**
+- `next`: React framework for production.
+- `framer-motion`: For premium, fluid animations.
+- `react-markdown`: Renders AI responses with proper formatting.
+- `three`, `@react-three/fiber`: For the 3D mascot visualization.
+- `sonner`: Sleek toast notifications.
+- `lucide-react`: Modern icon set.
 
 Run the frontend:
 ```bash
@@ -44,10 +50,10 @@ npm run dev
 ## ✨ Features
 - **Intelligent RAG**: Upload PDFs and ask complex questions based on the content.
 - **ChatGPT-Style Actions**: Real-time inline editing and regeneration in the thread.
-- **Session History**: Copy, Rename, and Rerun past conversations.
-- **Premium UI**: Ultra-responsive design with glassmorphism and smooth animations.
+- **Session History**: Clear management with one-click deletion and session persistence.
+- **Premium UI**: Ultra-responsive design with glassmorphism, 3D mascots, and custom avatars.
 
 ## 🔑 Environment Variables
 Create a `.env` in `backend` and `.env.local` in `frontend`:
-- `GOOGLE_API_KEY`: For Gemini embeddings/analysis.
-- `GROQ_API_KEY`: For ultra-fast Llama-3 chatting.
+- `GOOGLE_API_KEY`: Required for document analysis and Gemini logic.
+- `GROQ_API_KEY`: For ultra-fast chat performance using Llama-3.
