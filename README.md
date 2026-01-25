@@ -1,7 +1,7 @@
 # Lumina RAG-App 🤖✨
 
 <p align="center">
-  <img src="./frontend/public/bot-mascot-new.png" width="200" alt="Lumina Mascot">
+  <img src="./frontend/public/bot-mascot-new.png" width="300" alt="Lumina Mascot">
 </p>
 
 Lumina is a professional RAG (Retrieval-Augmented Generation) application built for intelligent document analysis and high-performance chatting.
@@ -9,6 +9,10 @@ Lumina is a professional RAG (Retrieval-Augmented Generation) application built 
 ## 🏗️ System Architecture & Workflow
 
 The application follows a structured RAG pipeline to provide accurate, context-aware answers:
+
+<p align="center">
+  <img src="./connectivity.png" width="600" alt="Connectivity Diagram">
+</p>
 
 1.  **Document Intake**: PDFs are uploaded via the frontend and processed by the FastAPI backend.
 2.  **Vectorization**: Using `PyMuPDF` for extraction and `Gemini Embeddings`, the document is split into smaller chunks and converted into high-dimensional vectors.
@@ -43,13 +47,21 @@ Run the frontend:
 npm run dev
 ```
 
+## 🔑 How to Get API Keys
+
+To run this application, you will need two API keys:
+
+1.  **Google API Key**: Used for document vectorization and embedding.
+    - Get it here: [Google AI Studio](https://aistudio.google.com/app/apikey)
+2.  **Groq API Key**: Used for ultra-fast Llama-3 chat responses.
+    - Get it here: [Groq Cloud Console](https://console.groq.com/keys)
+
+Once you have the keys, add them to your environment files:
+- **Backend**: Create a `.env` file in the `backend/` directory and add `GOOGLE_API_KEY=your_key_here`.
+- **Frontend**: Create a `.env.local` file in the `frontend/` directory and add `NEXT_PUBLIC_GOOGLE_API_KEY=your_key_here` and `NEXT_PUBLIC_GROQ_API_KEY=your_key_here`.
+
 ## ✨ Key Features
 - **Intelligent RAG**: Deep document understanding with vector search.
 - **Dynamic Interface**: Glassmorphic UI with 3D mascot and custom avatars.
 - **ChatGPT Logic**: True in-thread message editing and answer regeneration.
 - **Pro UI/UX**: Compact, mobile-responsive layout designed for productivity.
-
-## 🔑 Environment Variables
-Create a `.env` in `backend` and `.env.local` in `frontend`:
-- `GOOGLE_API_KEY`: For document embedding and analysis.
-- `GROQ_API_KEY`: For high-speed LLM inference.
