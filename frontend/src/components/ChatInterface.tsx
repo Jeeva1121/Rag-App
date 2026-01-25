@@ -134,7 +134,7 @@ export function ChatInterface({
                                         initial={{ opacity: 0, y: 30 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         className={cn(
-                                            "flex items-start space-x-3 md:space-x-6",
+                                            "flex items-start space-x-2 md:space-x-6",
                                             message.role === "user" ? "flex-row-reverse space-x-reverse" : "flex-row"
                                         )}
                                     >

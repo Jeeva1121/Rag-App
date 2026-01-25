@@ -17,7 +17,7 @@ export default function Home() {
     const [fileName, setFileName] = useState<string | null>(null)
     const [isDocumentLoaded, setIsDocumentLoaded] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true)
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
     const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY || ""
     const groqApiKey = process.env.NEXT_PUBLIC_GROQ_API_KEY || ""
