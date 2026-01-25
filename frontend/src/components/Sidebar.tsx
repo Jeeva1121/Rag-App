@@ -28,9 +28,12 @@ export function Sidebar({ onNewChat, onToggle, messages, fileName, sessions, onL
     const [view, setView] = useState<'chat' | 'history' | 'files'>('chat')
 
     return (
-        <div className="h-full flex flex-row items-center py-6 shrink-0 relative z-50 transition-all duration-300 ease-out" style={{ width: view === 'chat' ? '80px' : '320px' }}>
+        <div className={cn(
+            "h-full flex flex-row items-center py-2 md:py-6 shrink-0 relative z-50 transition-all duration-300 ease-out",
+            view === 'chat' ? "w-16 md:w-20" : "w-[280px] md:w-80"
+        )}>
             {/* Main Sidebar Pillar */}
-            <div className="h-full w-20 bg-white backdrop-blur-2xl rounded-2xl flex flex-col items-center py-6 shadow-2xl border border-white/50 relative z-20">
+            <div className="h-full w-16 md:w-20 bg-white backdrop-blur-2xl rounded-2xl flex flex-col items-center py-4 md:py-6 shadow-2xl border border-white/50 relative z-20">
                 {/* Top Actions */}
                 <div className="flex flex-col space-y-4 items-center w-full px-2">
                     <button
@@ -56,44 +59,44 @@ export function Sidebar({ onNewChat, onToggle, messages, fileName, sessions, onL
                 </div>
 
                 {/* Navigation */}
-                <nav className="flex-1 flex flex-col items-center space-y-6 mt-6">
+                <nav className="flex-1 flex flex-col items-center space-y-4 md:space-y-6 mt-4 md:mt-6">
                     <button
                         onClick={() => setView('chat')}
                         className={cn(
-                            "w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300",
+                            "w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl flex items-center justify-center transition-all duration-300",
                             view === 'chat'
                                 ? "bg-blue-50 text-blue-600 shadow-inner"
                                 : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"
                         )}
                         title="Current Chat"
                     >
-                        <MessageSquare className="w-6 h-6" />
+                        <MessageSquare className="w-5 h-5 md:w-6 md:h-6" />
                     </button>
 
                     <button
                         onClick={() => setView(view === 'history' ? 'chat' : 'history')}
                         className={cn(
-                            "w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300",
+                            "w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl flex items-center justify-center transition-all duration-300",
                             view === 'history'
                                 ? "bg-blue-50 text-blue-600 shadow-inner"
                                 : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"
                         )}
                         title="Chat History"
                     >
-                        <Clock className="w-6 h-6" />
+                        <Clock className="w-5 h-5 md:w-6 md:h-6" />
                     </button>
 
                     <button
                         onClick={() => setView(view === 'files' ? 'chat' : 'files')}
                         className={cn(
-                            "w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300",
+                            "w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl flex items-center justify-center transition-all duration-300",
                             view === 'files'
                                 ? "bg-blue-50 text-blue-600 shadow-inner"
                                 : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"
                         )}
                         title="Documents"
                     >
-                        <FileText className="w-6 h-6" />
+                        <FileText className="w-5 h-5 md:w-6 md:h-6" />
                     </button>
                 </nav>
 
@@ -102,8 +105,8 @@ export function Sidebar({ onNewChat, onToggle, messages, fileName, sessions, onL
 
             {/* Expandable Panel */}
             <div className={cn(
-                "absolute left-6 top-6 bottom-6 bg-white/90 backdrop-blur-xl rounded-r-3xl rounded-l-2xl border-y border-r border-white/50 shadow-xl transition-all duration-300 ease-out flex flex-col overflow-hidden z-10",
-                view === 'chat' ? "w-0 opacity-0 translate-x-0" : "w-64 opacity-100 translate-x-14 pl-4"
+                "absolute left-2 md:left-6 top-2 md:top-6 bottom-2 md:bottom-6 bg-white/90 backdrop-blur-xl rounded-r-3xl rounded-l-2xl border-y border-r border-white/50 shadow-xl transition-all duration-300 ease-out flex flex-col overflow-hidden z-10",
+                view === 'chat' ? "w-0 opacity-0 translate-x-0" : "w-60 md:w-64 opacity-100 translate-x-12 md:translate-x-14 pl-4"
             )}>
                 <div className="p-6 h-full flex flex-col w-64">
                     <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-6 mt-2">

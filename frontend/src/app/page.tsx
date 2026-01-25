@@ -144,7 +144,7 @@ export default function Home() {
     }
 
     return (
-        <main className="flex h-screen w-full overflow-hidden p-6 bg-transparent relative">
+        <main className="flex h-screen w-full overflow-hidden p-2 md:p-6 bg-transparent relative">
             <Toaster position="top-right" theme="light" richColors />
 
             <AnimatePresence>
@@ -179,33 +179,18 @@ export default function Home() {
                 )}
             </AnimatePresence>
 
-            {!isSidebarOpen && (
-                <motion.button
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0, opacity: 0 }}
-                    onClick={() => setIsSidebarOpen(true)}
-                    className="absolute top-6 left-6 z-50 p-3 glass-card rounded-xl hover:scale-110 transition-transform active:scale-95 md:top-10 md:left-10"
-                >
-                    <Menu className="w-6 h-6 text-gray-800" />
-                </motion.button>
-            )}
-
-            <div className="flex-1 flex justify-center items-center h-full relative p-2">
-                <div
-                    className="w-full h-full flex flex-col glass-card rounded-4xl overflow-hidden max-w-7xl transition-all duration-300"
-                >
-                    <ChatInterface
-                        isDocumentLoaded={isDocumentLoaded}
-                        fileName={fileName}
-                        messages={messages}
-                        onSend={handleSend}
-                        onNewChat={handleNewChat}
-                        onFileUpload={handleFileUpload}
-                        isLoading={isLoading}
-                    />
-
-                </div>
+            <div className="flex-1 flex justify-center items-center h-full relative">
+                <ChatInterface
+                    isDocumentLoaded={isDocumentLoaded}
+                    fileName={fileName}
+                    messages={messages}
+                    onSend={handleSend}
+                    onNewChat={handleNewChat}
+                    onFileUpload={handleFileUpload}
+                    isLoading={isLoading}
+                    onToggleSidebar={() => setIsSidebarOpen(true)}
+                    isSidebarOpen={isSidebarOpen}
+                />
             </div>
         </main>
     )
