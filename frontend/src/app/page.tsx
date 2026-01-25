@@ -149,23 +149,33 @@ export default function Home() {
 
             <AnimatePresence>
                 {isSidebarOpen && (
-                    <motion.div
-                        initial={{ width: 0, opacity: 0, x: -50 }}
-                        animate={{ width: "auto", opacity: 1, x: 0 }}
-                        exit={{ width: 0, opacity: 0, x: -50 }}
-                        transition={{ duration: 0.3, ease: "easeInOut" }}
-                        className="shrink-0"
-                    >
-                        <Sidebar
-                            onNewChat={handleNewChat}
-                            onToggle={() => setIsSidebarOpen(false)}
-                            messages={messages}
-                            fileName={fileName}
-                            sessions={sessions}
-                            onLoadSession={handleLoadSession}
-                            onDeleteSession={handleDeleteSession}
+                    <>
+                        {/* Mobile Backdrop */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setIsSidebarOpen(false)}
+                            className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden"
                         />
-                    </motion.div>
+                        <motion.div
+                            initial={{ width: 0, opacity: 0, x: -50 }}
+                            animate={{ width: "auto", opacity: 1, x: 0 }}
+                            exit={{ width: 0, opacity: 0, x: -50 }}
+                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                            className="shrink-0 fixed inset-y-0 left-0 z-50 h-full md:relative md:inset-auto"
+                        >
+                            <Sidebar
+                                onNewChat={handleNewChat}
+                                onToggle={() => setIsSidebarOpen(false)}
+                                messages={messages}
+                                fileName={fileName}
+                                sessions={sessions}
+                                onLoadSession={handleLoadSession}
+                                onDeleteSession={handleDeleteSession}
+                            />
+                        </motion.div>
+                    </>
                 )}
             </AnimatePresence>
 
@@ -175,7 +185,7 @@ export default function Home() {
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0, opacity: 0 }}
                     onClick={() => setIsSidebarOpen(true)}
-                    className="absolute top-10 left-10 z-50 p-4 glass-card rounded-2xl hover:scale-110 transition-transform active:scale-95"
+                    className="absolute top-6 left-6 z-50 p-3 glass-card rounded-xl hover:scale-110 transition-transform active:scale-95 md:top-10 md:left-10"
                 >
                     <Menu className="w-6 h-6 text-gray-800" />
                 </motion.button>

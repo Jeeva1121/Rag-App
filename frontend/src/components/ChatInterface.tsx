@@ -97,8 +97,8 @@ export function ChatInterface({
                                         <Image
                                             src="/bot-mascot-new.png"
                                             alt="Lumina Bot"
-                                            width={240}
-                                            height={240}
+                                            width={320}
+                                            height={320}
                                             className="drop-shadow-2xl hover:scale-105 transition-transform duration-700 pointer-events-none"
                                             priority
                                         />
