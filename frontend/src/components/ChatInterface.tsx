@@ -19,6 +19,8 @@ interface ChatInterfaceProps {
     isLoading: boolean
     onToggleSidebar: () => void
     isSidebarOpen: boolean
+    onRegenerate: (index: number) => void
+    onEdit: (index: number, content: string) => void
 }
 
 export function ChatInterface({
@@ -30,7 +32,9 @@ export function ChatInterface({
     onFileUpload,
     isLoading,
     onToggleSidebar,
-    isSidebarOpen
+    isSidebarOpen,
+    onRegenerate,
+    onEdit
 }: ChatInterfaceProps) {
     const [input, setInput] = useState("")
     const [copiedId, setCopiedId] = useState<string | null>(null)
@@ -173,7 +177,8 @@ export function ChatInterface({
                                                             </button>
                                                             <button
                                                                 onClick={() => {
-                                                                    onSend(editInput)
+                                                                    const idx = messages.indexOf(message)
+                                                                    onEdit(idx, editInput)
                                                                     setEditingId(null)
                                                                 }}
                                                                 className="p-1 hover:bg-white/10 rounded"
@@ -223,9 +228,7 @@ export function ChatInterface({
                                                     <button
                                                         onClick={() => {
                                                             const idx = messages.indexOf(message)
-                                                            if (idx > 0) {
-                                                                onSend(messages[idx - 1].content)
-                                                            }
+                                                            onRegenerate(idx)
                                                         }}
                                                         className="p-1.5 hover:bg-black/5 rounded-lg text-gray-400 hover:text-blue-500 transition-colors"
                                                         title="Rerun"

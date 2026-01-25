@@ -70,10 +70,26 @@ export default function Home() {
         }
     }
 
-    const handleSend = async (query: string) => {
-        const userMsg: ChatMessage = { id: Math.random().toString(36), role: "user", content: query }
+    const handleRegenerate = (index: number) => {
+        if (index <= 0) return
+        const previousUserQuery = messages[index - 1].content
+        setMessages(prev => prev.slice(0, index)) // Remove the old assistant message
+        handleSend(previousUserQuery, true)
+    }
+
+    const handleEdit = (index: number, newQuery: string) => {
+        setMessages(prev => prev.slice(0, index)) // Remove everything from edited message onwards
+        handleSend(newQuery)
+    }
+
+    const handleSend = async (query: string, isRegenerate = false) => {
         const assistantId = Math.random().toString(36)
-        setMessages(prev => [...prev, userMsg])
+
+        if (!isRegenerate) {
+            const userMsg: ChatMessage = { id: Math.random().toString(36), role: "user", content: query }
+            setMessages(prev => [...prev, userMsg])
+        }
+
         setIsLoading(true)
 
         try {
@@ -191,6 +207,8 @@ export default function Home() {
                         isLoading={isLoading}
                         onToggleSidebar={() => setIsSidebarOpen(true)}
                         isSidebarOpen={isSidebarOpen}
+                        onRegenerate={handleRegenerate}
+                        onEdit={handleEdit}
                     />
                 </div>
             </div>
