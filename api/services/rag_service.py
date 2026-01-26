@@ -3,7 +3,7 @@ from typing import List, Optional, Dict, Any
 from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
-from langchain_community.vectorstores import FAISS
+from langchain_core.vectorstores import InMemoryVectorStore
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
@@ -33,36 +33,15 @@ class RAGService:
         self.vector_store = None
         self.chat_history = []
         self.vector_store = None
+        # Use InMemoryVectorStore for serverless compatibility (fits in 250MB limit)
+        self.vector_store = None
         self.chat_history = []
-        # Check if running on Vercel
-        self.is_vercel = os.environ.get("VERCEL") == "1"
-        
-        # Use absolute path/tmp for index to avoid relative path confusion on Vercel
-        if self.is_vercel:
-            self.index_path = "/tmp/faiss_index"
-            log_path = "/tmp/backend_debug.log"
-        else:
-            self.index_path = os.path.abspath("faiss_index")
-            log_path = "backend_debug.log"
         
         # Setup logging
         import logging
+        log_path = "/tmp/backend_debug.log" if self.is_vercel else "backend_debug.log"
         logging.basicConfig(filename=log_path, level=logging.INFO)
         self.logger = logging.getLogger(__name__)
-
-        # Load existing index if available
-        if os.path.exists(self.index_path):
-            try:
-                self.vector_store = FAISS.load_local(
-                    self.index_path, 
-                    self.embeddings, 
-                    allow_dangerous_deserialization=True
-                )
-                self.logger.info(f"Loaded existing vector store from {self.index_path}")
-                print(f"DEBUG: Loaded existing vector store from {self.index_path}")
-            except Exception as e:
-                self.logger.error(f"Failed to load vector store: {e}")
-                print(f"DEBUG: Failed to load vector store: {e}")
 
     def process_pdf(self, file_path: str):
         """Milestone 1: Document Ingestion & Indexing (using FAISS)"""
@@ -86,13 +65,9 @@ class RAGService:
 
         self.logger.info(f"Created {len(chunks)} chunks")
         
-        # Using FAISS as our robust vector database
-        self.vector_store = FAISS.from_documents(chunks, self.embeddings)
-        
-        # Save index to disk for persistence
-        self.vector_store.save_local(self.index_path)
-        self.logger.info(f"Saved vector store to {self.index_path}")
-        print(f"DEBUG: Saved vector store to {self.index_path}")
+        # Using InMemoryVectorStore for robust serverless performance
+        self.vector_store = InMemoryVectorStore.from_documents(chunks, self.embeddings)
+        self.logger.info("Created in-memory vector store")
         
         return len(chunks)
 

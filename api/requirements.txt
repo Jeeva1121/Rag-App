@@ -7,4 +7,3 @@ langchain-text-splitters
 langchain-groq
 langchain-core
 pymupdf
-faiss-cpu
