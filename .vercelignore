@@ -1,0 +1,13 @@
+node_modules
+.next
+src
+public
+workflow.png
+backend_debug.log
+.env
+.env.local
+faiss_index
+uploads
+*.glb
+*.png
+*.jpg
