@@ -18,7 +18,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-UPLOAD_DIR = "uploads"
+# Check if running on Vercel
+IS_VERCEL = os.environ.get("VERCEL") == "1"
+UPLOAD_DIR = "/tmp/uploads" if IS_VERCEL else "uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 @app.get("/")

@@ -1,8 +1,10 @@
-backend/.env
-frontend/.env.local
+api/.env
+.env.local
 node_modules
 .next
 __pycache__
-backend/faiss_index
-backend/backend_debug.log
-backend/uploads
+api/faiss_index
+api/backend_debug.log
+api/uploads
+.vercel
+*.log

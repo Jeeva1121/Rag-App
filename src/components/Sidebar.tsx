@@ -125,7 +125,7 @@ export function Sidebar({ onNewChat, onToggle, messages, fileName, sessions, onL
                                 {messages.length > 0 && (
                                     <div className="p-3 md:p-4 rounded-2xl bg-blue-50 border border-blue-100 cursor-pointer shadow-sm">
                                         <p className="text-[10px] md:text-xs font-bold text-blue-600 mb-1 md:mb-2">Current Session</p>
-                                        <p className="text-xs md:text-sm font-medium text-gray-600 line-clamp-2 leading-relaxed break-words">
+                                        <p className="text-xs md:text-sm font-medium text-gray-600 line-clamp-2 leading-relaxed wrap-break-word">
                                             {messages[0].content}
                                         </p>
                                     </div>
@@ -167,7 +167,7 @@ export function Sidebar({ onNewChat, onToggle, messages, fileName, sessions, onL
                         ) : (
                             <div className="space-y-4">
                                 {fileName ? (
-                                    <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-100 flex items-center space-x-3">
+                                    <div className="p-4 rounded-2xl bg-linear-to-br from-blue-50 to-cyan-50 border border-blue-100 flex items-center space-x-3">
                                         <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-sm text-blue-500 shrink-0">
                                             <FileText className="w-5 h-5" />
                                         </div>

@@ -55,7 +55,8 @@ export default function Home() {
         formData.append("api_key", apiKey)
 
         try {
-            const response = await fetch("http://localhost:8000/upload", {
+            const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || ""
+            const response = await fetch(`${apiBaseUrl}/api/upload`, {
                 method: "POST",
                 body: formData,
             })
@@ -93,7 +94,8 @@ export default function Home() {
         setIsLoading(true)
 
         try {
-            const response = await fetch("http://localhost:8000/chat", {
+            const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || ""
+            const response = await fetch(`${apiBaseUrl}/api/chat`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ query, api_key: apiKey, groq_api_key: groqApiKey })

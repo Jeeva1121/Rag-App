@@ -34,12 +34,20 @@ class RAGService:
         self.chat_history = []
         self.vector_store = None
         self.chat_history = []
-        # Use absolute path for index to avoid relative path confusion
-        self.index_path = os.path.abspath("faiss_index")
+        # Check if running on Vercel
+        self.is_vercel = os.environ.get("VERCEL") == "1"
+        
+        # Use absolute path/tmp for index to avoid relative path confusion on Vercel
+        if self.is_vercel:
+            self.index_path = "/tmp/faiss_index"
+            log_path = "/tmp/backend_debug.log"
+        else:
+            self.index_path = os.path.abspath("faiss_index")
+            log_path = "backend_debug.log"
         
         # Setup logging
         import logging
-        logging.basicConfig(filename='backend_debug.log', level=logging.INFO)
+        logging.basicConfig(filename=log_path, level=logging.INFO)
         self.logger = logging.getLogger(__name__)
 
         # Load existing index if available
