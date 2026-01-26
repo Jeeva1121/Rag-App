@@ -23,11 +23,11 @@ IS_VERCEL = os.environ.get("VERCEL") == "1"
 UPLOAD_DIR = "/tmp/uploads" if IS_VERCEL else "uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
-@app.get("/")
+@app.get("/api")
 async def root():
     return {"status": "online", "message": "RAG API is running"}
 
-@app.post("/upload")
+@app.post("/api/upload")
 async def upload_document(file: UploadFile = File(...), api_key: Optional[str] = Form(None)):
     """Milestone 1: Document Ingestion"""
     print(f"DEBUG: Internal Upload Request - File: {file.filename}, API Key: {api_key[:10] if api_key else 'None'}...")
@@ -54,7 +54,7 @@ async def upload_document(file: UploadFile = File(...), api_key: Optional[str] =
             os.remove(file_path)
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/chat")
+@app.post("/api/chat")
 async def chat(
     query: str = Body(..., embed=True),
     api_key: Optional[str] = Body(None),
@@ -108,7 +108,7 @@ async def chat(
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/clear")
+@app.post("/api/clear")
 async def clear_session(api_key: Optional[str] = Body(None)):
     service = get_rag_service(api_key)
     service.clear_history()
