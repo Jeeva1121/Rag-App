@@ -28,9 +28,13 @@ async def root():
     return {"status": "online", "message": "RAG API is running"}
 
 @app.post("/api/upload")
-async def upload_document(file: UploadFile = File(...), api_key: Optional[str] = Form(None)):
+async def upload_document(
+    file: UploadFile = File(...), 
+    api_key: Optional[str] = Form(None),
+    user_id: str = Form("default")
+):
     """Milestone 1: Document Ingestion"""
-    print(f"DEBUG: Internal Upload Request - File: {file.filename}, API Key: {api_key[:10] if api_key else 'None'}...")
+    print(f"DEBUG: Internal Upload Request - File: {file.filename}, User: {user_id}")
     if not file.filename.lower().endswith(".pdf"):
         raise HTTPException(status_code=400, detail="Only PDF files are currently supported")
     
@@ -40,7 +44,7 @@ async def upload_document(file: UploadFile = File(...), api_key: Optional[str] =
         with open(file_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
         
-        service = get_rag_service(api_key)
+        service = get_rag_service(user_id, api_key)
         num_chunks = service.process_pdf(file_path)
         
         return {
@@ -58,12 +62,13 @@ async def upload_document(file: UploadFile = File(...), api_key: Optional[str] =
 async def chat(
     query: str = Body(..., embed=True),
     api_key: Optional[str] = Body(None),
-    groq_api_key: Optional[str] = Body(None)
+    groq_api_key: Optional[str] = Body(None),
+    user_id: str = Body("default")
 ):
     """Milestone 2 & 3: RAG Pipeline & Conversational Interface"""
-    print(f"DEBUG: Internal Chat Request - Query: {query[:20]}, API Key: {api_key[:10] if api_key else 'None'}...")
+    print(f"DEBUG: Internal Chat Request - Query: {query[:20]}, User: {user_id}")
     try:
-        service = get_rag_service(api_key, groq_api_key)
+        service = get_rag_service(user_id, api_key, groq_api_key)
         print(f"DEBUG: Service Instance: {id(service)}, Vector Store Loaded: {service.vector_store is not None}")
         
         async def event_generator():
@@ -109,10 +114,10 @@ async def chat(
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/api/clear")
-async def clear_session(api_key: Optional[str] = Body(None)):
-    service = get_rag_service(api_key)
+async def clear_session(user_id: str = Body("default"), api_key: Optional[str] = Body(None)):
+    service = get_rag_service(user_id, api_key)
     service.clear_history()
-    return {"message": "Session history cleared"}
+    return {"message": f"Session history cleared for {user_id}"}
 
 if __name__ == "__main__":
     import uvicorn

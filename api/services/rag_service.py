@@ -14,7 +14,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class RAGService:
-    def __init__(self, api_key: Optional[str] = None, groq_api_key: Optional[str] = None):
+    def __init__(self, user_id: str = "default", api_key: Optional[str] = None, groq_api_key: Optional[str] = None):
+        self.user_id = user_id
         self.api_key = api_key or os.getenv("GOOGLE_API_KEY")
         self.groq_api_key = groq_api_key or os.getenv("GROQ_API_KEY")
         
@@ -37,13 +38,13 @@ class RAGService:
         # Check if running on Vercel
         self.is_vercel = os.environ.get("VERCEL") == "1"
         
-        # Use absolute path/tmp for index to avoid relative path confusion on Vercel
+        # Use separate index path for each user
         if self.is_vercel:
-            self.index_path = "/tmp/faiss_index"
-            log_path = "/tmp/backend_debug.log"
+            self.index_path = f"/tmp/faiss_index_{self.user_id}"
+            log_path = f"/tmp/backend_debug_{self.user_id}.log"
         else:
-            self.index_path = os.path.abspath("faiss_index")
-            log_path = "backend_debug.log"
+            self.index_path = os.path.abspath(f"faiss_index_{self.user_id}")
+            log_path = f"backend_debug_{self.user_id}.log"
         
         # Setup logging
         import logging
@@ -163,18 +164,15 @@ class RAGService:
     def clear_history(self):
         self.chat_history = []
 
-# Singleton instance management
+# Singleton instance management (Isolates users in memory)
 _service_cache: Dict[str, RAGService] = {}
 
-def get_rag_service(api_key: Optional[str] = None, groq_api_key: Optional[str] = None) -> RAGService:
-    # Use only the Google API key (or 'default') as the session identifier
-    # This ensures the vector_store persists across upload and chat calls
-    session_id = api_key or "default"
+def get_rag_service(user_id: str = "default", api_key: Optional[str] = None, groq_api_key: Optional[str] = None) -> RAGService:
+    # Use the unique user_id as the session identifier
+    if user_id not in _service_cache:
+        _service_cache[user_id] = RAGService(user_id, api_key, groq_api_key)
     
-    if session_id not in _service_cache:
-        _service_cache[session_id] = RAGService(api_key, groq_api_key)
-    
-    service = _service_cache[session_id]
+    service = _service_cache[user_id]
     
     # Update the Groq key if a fresh one is provided in the request
     if groq_api_key and service.groq_api_key != groq_api_key:

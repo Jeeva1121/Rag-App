@@ -18,6 +18,7 @@ export default function Home() {
     const [isDocumentLoaded, setIsDocumentLoaded] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+    const [deviceId, setDeviceId] = useState<string>("")
 
     const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY || ""
     const groqApiKey = process.env.NEXT_PUBLIC_GROQ_API_KEY || ""
@@ -28,6 +29,13 @@ export default function Home() {
         const savedFile = localStorage.getItem("lumina_filename")
         const savedDocStatus = localStorage.getItem("lumina_doc_status")
         const savedSessions = localStorage.getItem("lumina_sessions")
+        let savedDeviceId = localStorage.getItem("lumina_device_id")
+
+        if (!savedDeviceId) {
+            savedDeviceId = Math.random().toString(36).substring(7)
+            localStorage.setItem("lumina_device_id", savedDeviceId)
+        }
+        setDeviceId(savedDeviceId)
 
         if (savedMessages) setMessages(JSON.parse(savedMessages))
         if (savedFile) setFileName(savedFile)
@@ -53,6 +61,7 @@ export default function Home() {
         const formData = new FormData()
         formData.append("file", file)
         formData.append("api_key", apiKey)
+        formData.append("user_id", deviceId)
 
         try {
             const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || ""
@@ -98,7 +107,12 @@ export default function Home() {
             const response = await fetch(`${apiBaseUrl}/api/chat`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ query, api_key: apiKey, groq_api_key: groqApiKey })
+                body: JSON.stringify({
+                    query,
+                    api_key: apiKey,
+                    groq_api_key: groqApiKey,
+                    user_id: deviceId
+                })
             })
             const reader = response.body?.getReader()
             if (!reader) return
