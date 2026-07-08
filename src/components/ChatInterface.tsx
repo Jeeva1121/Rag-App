@@ -233,7 +233,7 @@ export function ChatInterface({
                 </header>
 
                 {/* Main Content Area */}
-                <div className={cn("flex-1 flex flex-col overflow-hidden", messages.length === 0 ? "justify-center pb-8 md:pb-24" : "")}>
+                <div className={cn("flex-1 flex flex-col overflow-hidden", messages.length === 0 ? "justify-center pb-0 md:pb-24" : "")}>
                     {/* Chat Area */}
                     <div className={cn("overflow-y-auto px-8 custom-scrollbar flex flex-col", messages.length === 0 ? "" : "flex-1 py-6")}>
                         <div className={cn("max-w-3xl mx-auto flex flex-col space-y-8 w-full", messages.length === 0 ? "justify-center" : "")}>
