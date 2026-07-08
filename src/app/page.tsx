@@ -64,7 +64,7 @@ export default function Home() {
              initial={{ opacity: 0, y: 20 }}
              animate={{ opacity: 1, y: 0 }}
              transition={{ duration: 0.5, delay: 0.3 }}
-             className="text-5xl md:text-7xl font-extrabold leading-[1.05] tracking-tight text-black mb-6"
+             className="text-3xl md:text-7xl font-extrabold leading-[1.05] tracking-tight text-black mb-6"
           >
             Chat with your <br />
             documents <span className="text-[#2B66FF]">smarter.</span>
@@ -129,7 +129,7 @@ export default function Home() {
          
          {/* Left Column text */}
          <div className="lg:col-span-4 text-left flex flex-col items-start">
-            <h2 className="text-4xl font-extrabold text-black leading-tight mb-6">
+            <h2 className="text-2xl md:text-4xl font-extrabold text-black leading-tight mb-6">
                Built for deep thinking <br />
                Not <span className="text-[#2B66FF]">shallow</span> answers
             </h2>

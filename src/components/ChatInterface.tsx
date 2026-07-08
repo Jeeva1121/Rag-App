@@ -249,9 +249,9 @@ export function ChatInterface({
                                     loop 
                                     muted 
                                     playsInline 
-                                    className="w-60 h-auto mb-4 mix-blend-multiply"
+                                    className="w-40 md:w-60 h-auto mb-4 mix-blend-multiply"
                                 />
-                                <h2 className="font-bold text-3xl text-black">How can I help you today?</h2>
+                                <h2 className="font-bold text-xl md:text-3xl text-black text-center px-4">How can I help you today?</h2>
                              </motion.div>
                         ) : (
                             <AnimatePresence initial={false}>
@@ -363,20 +363,28 @@ export function ChatInterface({
                 </div>
 
                 {/* Input Area */}
-                <div className={cn("px-8 relative z-10", messages.length === 0 ? "mt-4" : "pb-12 pt-0")}>
-                    <div className="max-w-3xl mx-auto bg-white border-2 border-black rounded-3xl p-3 shadow-sm focus-within:ring-2 focus-within:ring-blue-100 transition-all">
+                <div className={cn("px-4 md:px-8 relative z-10", messages.length === 0 ? "mt-4" : "pb-12 pt-0")}>
+                    <div className="max-w-3xl mx-auto bg-white border-2 border-black rounded-3xl p-2 md:p-3 shadow-sm focus-within:ring-2 focus-within:ring-blue-100 transition-all">
                         <textarea
                             rows={1}
                             placeholder="Ask anything about your documents..."
                             value={input}
-                            onChange={(e) => setInput(e.target.value)}
+                            onChange={(e) => {
+                                setInput(e.target.value)
+                                e.target.style.height = 'auto'
+                                e.target.style.height = `${Math.min(e.target.scrollHeight, 128)}px`
+                            }}
                             onKeyDown={(e) => {
                                 if (e.key === "Enter" && !e.shiftKey) {
                                     e.preventDefault()
                                     handleSend()
                                 }
                             }}
-                            className="w-full py-2 px-3 text-sm resize-none max-h-32 min-h-[44px] outline-none bg-transparent placeholder-neutral-400 text-black font-normal custom-scrollbar mb-2"
+                            style={{ 
+                                height: input ? undefined : 'auto', // Reset on empty
+                                overflowY: input.split('\n').length > 4 ? 'auto' : 'hidden' 
+                            }}
+                            className="w-full py-2 px-3 text-sm resize-none min-h-[44px] max-h-32 outline-none bg-transparent placeholder-neutral-400 text-black font-normal custom-scrollbar mb-2"
                         />
                         
                         <div className="flex items-center justify-between mt-2">
