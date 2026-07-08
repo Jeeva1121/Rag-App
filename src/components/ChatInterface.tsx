@@ -363,7 +363,7 @@ export function ChatInterface({
                 </div>
 
                 {/* Input Area */}
-                <div className={cn("px-4 md:px-8 relative z-10", messages.length === 0 ? "mt-2 md:mt-4 pb-2 md:pb-6" : "pb-4 md:pb-12 pt-0")}>
+                <div className={cn("px-4 md:px-8 relative z-10", messages.length === 0 ? "mt-0 md:mt-4 pb-0 md:pb-6" : "pb-0 md:pb-12 pt-0")}>
                     <div className="max-w-3xl mx-auto bg-white border-2 border-black rounded-3xl p-2 md:p-3 shadow-sm focus-within:ring-2 focus-within:ring-blue-100 transition-all">
                         <textarea
                             rows={1}
