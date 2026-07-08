@@ -119,7 +119,7 @@ export function ChatInterface({
     return (
         <div className="flex-1 flex h-full bg-white">
             {/* Main Chat Column */}
-            <div className="flex-1 flex flex-col h-full border-r border-transparent">
+            <div className={cn("flex-1 flex flex-col h-full border-r border-transparent", messages.length === 0 ? "overflow-hidden" : "")}>
                 {/* Header */}
                 <header className="h-16 md:h-20 shrink-0 flex items-center justify-between px-4 md:px-8 border-b border-transparent gap-2 md:gap-4">
                     <div className="flex items-center gap-1 md:gap-2 shrink-0">
@@ -233,7 +233,7 @@ export function ChatInterface({
                 </header>
 
                 {/* Main Content Area */}
-                <div className={cn("flex-1 flex flex-col overflow-hidden", messages.length === 0 ? "justify-center pb-0 md:pb-24" : "")}>
+                <div className={cn("flex-1 flex flex-col", messages.length === 0 ? "justify-center items-center overflow-hidden" : "overflow-hidden")}>
                     {/* Chat Area */}
                     <div className={cn("overflow-y-auto px-8 custom-scrollbar flex flex-col", messages.length === 0 ? "" : "flex-1 py-6")}>
                         <div className={cn("max-w-3xl mx-auto flex flex-col space-y-8 w-full", messages.length === 0 ? "justify-center" : "")}>
@@ -363,7 +363,7 @@ export function ChatInterface({
                 </div>
 
                 {/* Input Area */}
-                <div className={cn("px-4 md:px-8 relative z-10", messages.length === 0 ? "mt-0 md:mt-4 pb-0 md:pb-6" : "pb-0 md:pb-12 pt-0")}>
+                <div className={cn("px-4 md:px-8 relative z-10 w-full", messages.length === 0 ? "" : "pb-2 md:pb-12 pt-0")}>
                     <div className="max-w-3xl mx-auto bg-white border-2 border-black rounded-3xl p-2 md:p-3 shadow-sm focus-within:ring-2 focus-within:ring-blue-100 transition-all">
                         <textarea
                             rows={1}
