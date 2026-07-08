@@ -271,20 +271,20 @@ export function ChatInterface({
                                             : "text-black"
                                     )}>
                                         {editingId === message.id ? (
-                                            <div className="flex flex-col space-y-3 min-w-[250px]">
+                                            <div className="flex flex-col space-y-2 w-full">
                                                 <textarea
                                                     autoFocus
-                                                    className="w-full p-3 text-sm bg-blue-700 border border-blue-500 rounded-xl outline-none text-white resize-none"
-                                                    rows={3}
+                                                    className="w-full p-2 text-sm bg-blue-700 border border-blue-500 rounded-xl outline-none text-white resize-none"
+                                                    rows={2}
                                                     value={editInput}
                                                     onChange={(e) => setEditInput(e.target.value)}
                                                 />
                                                 <div className="flex justify-end space-x-2">
-                                                    <button onClick={() => setEditingId(null)} className="px-3 py-1.5 text-xs font-bold text-blue-200 hover:text-white">Cancel</button>
+                                                    <button onClick={() => setEditingId(null)} className="px-3 py-1 text-xs font-bold text-blue-200 hover:text-white">Cancel</button>
                                                     <button onClick={() => {
                                                         onEdit(idx, editInput)
                                                         setEditingId(null)
-                                                    }} className="px-4 py-1.5 text-xs font-bold bg-white text-blue-600 rounded-full shadow-sm">Save</button>
+                                                    }} className="px-3 py-1 text-xs font-bold bg-white text-blue-600 rounded-full shadow-sm">Save</button>
                                                 </div>
                                             </div>
                                         ) : (
