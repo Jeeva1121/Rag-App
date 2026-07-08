@@ -1,6 +1,7 @@
 import "@/lib/polyfill";
 import { NextRequest, NextResponse } from "next/server";
 import { RAGService } from "@/lib/rag-service";
+import { auth } from "@/auth";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -26,17 +27,20 @@ export async function OPTIONS() {
 
 export async function POST(req: NextRequest) {
     try {
-        const body = await req.json();
-        const { query, user_id, groq_api_key: groq_key, pdf_text } = body;
+        const session = await auth();
+        const userId = session?.user?.email || "anonymous";
 
+        const body = await req.json();
+        const { query, chat_id, groq_api_key: groq_key, pdf_text } = body;
+
+        const chatId = chat_id || "default";
         const groqApiKey = groq_key || process.env.NEXT_PUBLIC_GROQ_API_KEY;
-        const userId = user_id || "default";
 
         if (!groqApiKey) {
             return NextResponse.json({ detail: "Missing Groq API key" }, { status: 400 });
         }
 
-        const ragService = new RAGService(userId, groqApiKey);
+        const ragService = new RAGService(userId, chatId, groqApiKey);
         const stream = await ragService.getChatResponse(query, pdf_text);
 
         const encoder = new TextEncoder();

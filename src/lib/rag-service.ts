@@ -14,14 +14,18 @@ globalForRag.serviceCache = serviceCache;
 
 export class RAGService {
     private user_id: string;
+    private chat_id: string;
     private groq_api_key: string;
+    private session_key: string;
 
-    constructor(user_id: string, groq_api_key: string) {
+    constructor(user_id: string, chat_id: string, groq_api_key: string) {
         this.user_id = user_id;
+        this.chat_id = chat_id;
         this.groq_api_key = groq_api_key;
+        this.session_key = `${user_id}_${chat_id}`;
 
-        if (!serviceCache[user_id]) {
-            serviceCache[user_id] = { chatHistory: [] };
+        if (!serviceCache[this.session_key]) {
+            serviceCache[this.session_key] = { chatHistory: [] };
         }
     }
 
@@ -53,7 +57,7 @@ export class RAGService {
     }
 
     async getChatResponse(query: string, pdf_text?: string) {
-        const chatHistory = serviceCache[this.user_id].chatHistory;
+        const chatHistory = serviceCache[this.session_key].chatHistory;
 
         const systemPrompt = pdf_text && pdf_text.length > 10
             ? `You are Lumina, an intelligent AI assistant. 
@@ -110,20 +114,20 @@ export class RAGService {
     }
 
     updateHistory(query: string, answer: string) {
-        if (!serviceCache[this.user_id]) serviceCache[this.user_id] = { chatHistory: [] };
+        if (!serviceCache[this.session_key]) serviceCache[this.session_key] = { chatHistory: [] };
         
-        serviceCache[this.user_id].chatHistory.push({ type: "human", content: query });
-        serviceCache[this.user_id].chatHistory.push({ type: "ai", content: answer });
+        serviceCache[this.session_key].chatHistory.push({ type: "human", content: query });
+        serviceCache[this.session_key].chatHistory.push({ type: "ai", content: answer });
 
         // Keep last 15 exchanges
-        if (serviceCache[this.user_id].chatHistory.length > 30) {
-            serviceCache[this.user_id].chatHistory = serviceCache[this.user_id].chatHistory.slice(-30);
+        if (serviceCache[this.session_key].chatHistory.length > 30) {
+            serviceCache[this.session_key].chatHistory = serviceCache[this.session_key].chatHistory.slice(-30);
         }
     }
 
     clearHistory() {
-        if (serviceCache[this.user_id]) {
-            serviceCache[this.user_id].chatHistory = [];
+        if (serviceCache[this.session_key]) {
+            serviceCache[this.session_key].chatHistory = [];
         }
     }
 }

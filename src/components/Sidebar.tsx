@@ -5,6 +5,7 @@ import { ChatSession, UploadedDocument } from "@/types"
 import Link from "next/link"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
+import { signOut } from "next-auth/react"
 
 interface SidebarProps {
     onNewChat: () => void
@@ -185,6 +186,16 @@ export function Sidebar({ onNewChat, onToggle, sessions, documents = [], onLoadS
                         )}
                     </AnimatePresence>
                 </div>
+            </div>
+
+            {/* Bottom Section - Sign Out */}
+            <div className="p-4 mt-auto border-t border-neutral-200">
+                <button
+                    onClick={() => signOut({ callbackUrl: '/' })}
+                    className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-neutral-200 rounded-xl text-sm font-semibold text-neutral-600 hover:bg-neutral-50 transition-colors shadow-sm"
+                >
+                    Sign Out
+                </button>
             </div>
         </div>
     )

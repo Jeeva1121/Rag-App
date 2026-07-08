@@ -2,8 +2,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Play, FileText, MessageSquare, CheckSquare, Plus, Search } from "lucide-react";
 import * as motion from "framer-motion/client";
+import { auth, signIn, signOut } from "@/auth";
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth();
+  const newChatId = crypto.randomUUID();
   return (
     <div className="flex-1 flex flex-col w-full relative min-h-screen bg-white grid-bg pb-20">
       
@@ -25,16 +28,29 @@ export default function Home() {
 
         {/* Actions */}
         <div className="hidden md:flex items-center gap-3">
-          <Link href="/chat">
-            <button className="hero-btn hero-btn-sm hero-btn-outline">
-              <div className="hero-btn-outer"><div className="hero-btn-inner"><span>Log in</span></div></div>
-            </button>
-          </Link>
-          <Link href="/chat">
-            <button className="hero-btn hero-btn-sm hero-btn-yellow">
-              <div className="hero-btn-outer"><div className="hero-btn-inner"><span>Sign up</span></div></div>
-            </button>
-          </Link>
+          {!session ? (
+            <>
+              <Link href="/login">
+                <button className="hero-btn hero-btn-sm hero-btn-outline">
+                  <div className="hero-btn-outer"><div className="hero-btn-inner"><span>Log in</span></div></div>
+                </button>
+              </Link>
+              <Link href="/login">
+                <button className="hero-btn hero-btn-sm hero-btn-yellow">
+                  <div className="hero-btn-outer"><div className="hero-btn-inner"><span>Sign up</span></div></div>
+                </button>
+              </Link>
+            </>
+          ) : (
+            <>
+              <div className="text-sm font-semibold mr-2">{session.user?.name}</div>
+              <form action={async () => { "use server"; await signOut(); }}>
+                <button className="hero-btn hero-btn-sm hero-btn-outline" type="submit">
+                  <div className="hero-btn-outer"><div className="hero-btn-inner"><span>Sign out</span></div></div>
+                </button>
+              </form>
+            </>
+          )}
         </div>
       </nav>
 
@@ -87,15 +103,27 @@ export default function Home() {
              className="flex flex-col gap-6"
           >
             <div className="flex flex-wrap items-center gap-4 md:gap-8 mt-2">
-                <Link href="/chat">
-                    <button className="hero-btn">
-                        <div className="hero-btn-outer">
-                            <div className="hero-btn-inner">
-                                <span>Start Chatting <ArrowRight className="w-4 h-4" /></span>
-                            </div>
-                        </div>
-                    </button>
-                </Link>
+                {!session ? (
+                   <Link href="/login">
+                      <button className="hero-btn">
+                          <div className="hero-btn-outer">
+                              <div className="hero-btn-inner">
+                                  <span>Sign in to Start <ArrowRight className="w-4 h-4" /></span>
+                              </div>
+                          </div>
+                      </button>
+                   </Link>
+                ) : (
+                   <Link href={`/chat?id=${newChatId}`}>
+                      <button className="hero-btn">
+                          <div className="hero-btn-outer">
+                              <div className="hero-btn-inner">
+                                  <span>Start New Chat <ArrowRight className="w-4 h-4" /></span>
+                              </div>
+                          </div>
+                      </button>
+                   </Link>
+                )}
                 <Link href="/how-it-works" className="group font-semibold text-sm tracking-wider text-neutral-500 flex items-center gap-2 hover:text-black transition-colors ml-3 md:ml-0 mt-2 md:mt-0">
                   Learn how it works 
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

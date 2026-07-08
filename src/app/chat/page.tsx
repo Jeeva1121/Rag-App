@@ -23,6 +23,9 @@ export default function ChatPage() {
 
     // Load history and sessions
     useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search)
+        const urlChatId = urlParams.get("id")
+
         const savedMessages = localStorage.getItem("lumina_history")
         const savedFile = localStorage.getItem("lumina_filename")
         const savedDocStatus = localStorage.getItem("lumina_doc_status")
@@ -43,8 +46,20 @@ export default function ChatPage() {
         if (savedDocStatus) setIsDocumentLoaded(JSON.parse(savedDocStatus))
         if (savedPdfText) setPdfText(savedPdfText)
         if (savedSessions) setSessions(JSON.parse(savedSessions))
-        if (savedActiveSessionId) setCurrentSessionId(savedActiveSessionId)
         if (savedDocs) setDocuments(JSON.parse(savedDocs))
+        
+        if (urlChatId) {
+            setCurrentSessionId(urlChatId)
+            // If the URL has a chat ID and it doesn't match the active session, clear the screen
+            if (urlChatId !== savedActiveSessionId) {
+                setMessages([])
+                setFileName(null)
+                setIsDocumentLoaded(false)
+                setPdfText(null)
+            }
+        } else if (savedActiveSessionId) {
+            setCurrentSessionId(savedActiveSessionId)
+        }
 
         // Restore templates
         const savedSnow = localStorage.getItem("template_snowfall")
@@ -128,7 +143,9 @@ export default function ChatPage() {
         setIsLoading(true)
         const formData = new FormData()
         formData.append("file", file)
-        formData.append("user_id", deviceId)
+        const activeId = currentSessionId || Math.random().toString(36).substring(7)
+        if (!currentSessionId) setCurrentSessionId(activeId)
+        formData.append("chat_id", activeId)
 
         try {
             const apiBaseUrl = getApiBaseUrl()
@@ -202,7 +219,7 @@ export default function ChatPage() {
                 body: JSON.stringify({
                     query,
                     groq_api_key: groqApiKey,
-                    user_id: deviceId,
+                    chat_id: activeId,
                     pdf_text: pdfText
                 }),
                 signal: controller.signal

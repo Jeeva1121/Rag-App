@@ -1,6 +1,7 @@
 import "@/lib/polyfill";
 import { NextRequest, NextResponse } from "next/server";
 import { RAGService } from "@/lib/rag-service";
+import { auth } from "@/auth";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -18,9 +19,12 @@ export async function OPTIONS() {
 
 export async function POST(req: NextRequest) {
     try {
+        const session = await auth();
+        const userId = session?.user?.email || "anonymous";
+
         const formData = await req.formData();
         const file = formData.get("file") as File;
-        const userId = (formData.get("user_id") as string) || "default";
+        const chatId = (formData.get("chat_id") as string) || "default";
         const groqApiKey = process.env.NEXT_PUBLIC_GROQ_API_KEY;
 
         if (!file) {
@@ -34,7 +38,7 @@ export async function POST(req: NextRequest) {
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
 
-        const ragService = new RAGService(userId, groqApiKey);
+        const ragService = new RAGService(userId, chatId, groqApiKey);
         const result = await ragService.processPdf(buffer);
 
         return NextResponse.json({
