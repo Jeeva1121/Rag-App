@@ -233,7 +233,7 @@ export function ChatInterface({
                 </header>
 
                 {/* Main Content Area */}
-                <div className={cn("flex-1 flex flex-col overflow-hidden", messages.length === 0 ? "justify-center pb-24" : "")}>
+                <div className={cn("flex-1 flex flex-col overflow-hidden", messages.length === 0 ? "justify-center pb-8 md:pb-24" : "")}>
                     {/* Chat Area */}
                     <div className={cn("overflow-y-auto px-8 custom-scrollbar flex flex-col", messages.length === 0 ? "" : "flex-1 py-6")}>
                         <div className={cn("max-w-3xl mx-auto flex flex-col space-y-8 w-full", messages.length === 0 ? "justify-center" : "")}>
@@ -241,7 +241,7 @@ export function ChatInterface({
                              <motion.div 
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 animate={{ opacity: 1, scale: 1 }}
-                                className="flex flex-col items-center justify-center text-center space-y-4"
+                                className="flex flex-col items-center justify-center text-center space-y-2 md:space-y-4"
                              >
                                 <video 
                                     src="/center-video.mp4" 
@@ -249,7 +249,7 @@ export function ChatInterface({
                                     loop 
                                     muted 
                                     playsInline 
-                                    className="w-40 md:w-60 h-auto mb-4 mix-blend-multiply"
+                                    className="w-40 md:w-60 h-auto mb-1 md:mb-4 mix-blend-multiply"
                                 />
                                 <h2 className="font-bold text-xl md:text-3xl text-black text-center px-4">How can I help you today?</h2>
                              </motion.div>
@@ -363,7 +363,7 @@ export function ChatInterface({
                 </div>
 
                 {/* Input Area */}
-                <div className={cn("px-4 md:px-8 relative z-10", messages.length === 0 ? "mt-4" : "pb-12 pt-0")}>
+                <div className={cn("px-4 md:px-8 relative z-10", messages.length === 0 ? "mt-2 md:mt-4" : "pb-12 pt-0")}>
                     <div className="max-w-3xl mx-auto bg-white border-2 border-black rounded-3xl p-2 md:p-3 shadow-sm focus-within:ring-2 focus-within:ring-blue-100 transition-all">
                         <textarea
                             rows={1}
