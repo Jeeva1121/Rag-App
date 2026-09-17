@@ -10,14 +10,16 @@ export async function POST(req: NextRequest) {
         const body = await req.json();
         const { query, groq_api_key } = body;
 
-        const groqApiKey = groq_api_key || process.env.NEXT_PUBLIC_GROQ_API_KEY;
+        const groqApiKey = groq_api_key || process.env.GROQ_API_KEY || process.env.NEXT_PUBLIC_GROQ_API_KEY;
 
         if (!groqApiKey) {
             return NextResponse.json({ title: "New Chat" }, { status: 200 });
         }
 
+        const model = process.env.GROQ_MODEL || "openai/gpt-oss-20b";
+
         const llm = new ChatGroq({
-            model: "llama-3.1-8b-instant",
+            model: model,
             apiKey: groqApiKey,
             temperature: 0.1,
         });

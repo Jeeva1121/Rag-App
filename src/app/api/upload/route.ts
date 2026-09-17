@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
         const formData = await req.formData();
         const file = formData.get("file") as File;
         const chatId = (formData.get("chat_id") as string) || "default";
-        const groqApiKey = process.env.NEXT_PUBLIC_GROQ_API_KEY;
+        const groqApiKey = process.env.GROQ_API_KEY || process.env.NEXT_PUBLIC_GROQ_API_KEY;
 
         if (!file) {
             return NextResponse.json({ detail: "No file uploaded" }, { status: 400 });

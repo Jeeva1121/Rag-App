@@ -87,6 +87,8 @@ export class RAGService {
 
         messages.push({ role: "user", content: query });
 
+        const model = process.env.GROQ_MODEL || "openai/gpt-oss-20b";
+
         const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
             method: "POST",
             headers: {
@@ -94,7 +96,7 @@ export class RAGService {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                model: "llama-3.1-8b-instant",
+                model: model,
                 messages: messages,
                 temperature: 0.1,
                 stream: true

@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
         const { query, chat_id, groq_api_key: groq_key, pdf_text } = body;
 
         const chatId = chat_id || "default";
-        const groqApiKey = groq_key || process.env.NEXT_PUBLIC_GROQ_API_KEY;
+        const groqApiKey = groq_key || process.env.GROQ_API_KEY || process.env.NEXT_PUBLIC_GROQ_API_KEY;
 
         if (!groqApiKey) {
             return NextResponse.json({ detail: "Missing Groq API key" }, { status: 400 });
